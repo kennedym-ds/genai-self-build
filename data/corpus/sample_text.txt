@@ -1,0 +1,51 @@
+Machine learning is a subset of artificial intelligence that enables systems to learn from data.
+Deep learning uses neural networks with many layers to process complex patterns.
+Natural language processing helps computers understand and generate human language.
+Transformers revolutionized NLP by introducing the attention mechanism.
+Word embeddings capture semantic relationships between words in vector space.
+Tokenization breaks text into smaller units like words or subwords.
+Vector databases store and retrieve high-dimensional vectors efficiently.
+Retrieval augmented generation combines search with text generation.
+Large language models are trained on vast amounts of text data.
+The attention mechanism allows models to focus on relevant parts of the input.
+Fine-tuning adapts pre-trained models to specific tasks.
+Prompt engineering crafts inputs to get better outputs from language models.
+Semantic search finds documents based on meaning rather than keywords.
+Neural networks are inspired by the structure of biological neurons.
+Backpropagation is the algorithm used to train neural networks.
+Gradient descent optimizes model parameters by following the loss gradient.
+Overfitting occurs when a model memorizes training data instead of learning patterns.
+Regularization techniques help prevent overfitting in machine learning models.
+Transfer learning applies knowledge from one task to improve performance on another.
+The transformer architecture consists of encoder and decoder components.
+Self-attention computes relationships between all positions in a sequence.
+Positional encoding adds sequence order information to transformer models.
+Layer normalization stabilizes training in deep neural networks.
+Residual connections help gradients flow through deep networks.
+The softmax function converts scores into probability distributions.
+Cross-entropy loss measures the difference between predicted and actual distributions.
+Batch normalization normalizes activations within a mini-batch during training.
+Dropout randomly deactivates neurons during training to prevent overfitting.
+Learning rate controls how much model weights are updated during training.
+Epochs are complete passes through the training dataset.
+The vocabulary is the set of all tokens a model can recognize.
+Out-of-vocabulary words are tokens not present in the model's vocabulary.
+Byte pair encoding is a subword tokenization algorithm used by many models.
+Cosine similarity measures the angle between two vectors.
+Euclidean distance measures the straight-line distance between two points.
+The curse of dimensionality makes high-dimensional spaces difficult to search.
+Approximate nearest neighbor algorithms trade accuracy for speed.
+Locality sensitive hashing groups similar items into the same buckets.
+HNSW creates a hierarchical graph structure for efficient similarity search.
+Chunking splits documents into smaller pieces for processing.
+Context windows limit how much text a model can process at once.
+Temperature controls randomness in text generation.
+Top-k sampling limits generation to the k most likely tokens.
+Nucleus sampling selects tokens from the smallest set exceeding probability p.
+Beam search explores multiple generation paths simultaneously.
+Greedy decoding always selects the most likely next token.
+Perplexity measures how well a model predicts text.
+BLEU score evaluates the quality of generated text against references.
+Hallucination occurs when models generate plausible but incorrect information.
+Grounding connects model outputs to verifiable sources.
+Chain of thought prompting encourages step-by-step reasoning.
