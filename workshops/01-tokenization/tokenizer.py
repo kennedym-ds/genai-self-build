@@ -44,26 +44,38 @@ class SimpleTokenizer:
         text = tokenizer.decode([1, 2])            # "hello world"
     """
     
-    def __init__(self, strategy: str = 'word'):
+    def __init__(self, strategy: str = 'word', debug: bool = False):
         """
         Initialize the tokenizer.
-        
+
         Args:
             strategy: One of 'char', 'word', or 'bpe'
+            debug: If True, print detailed step-by-step information (for learning)
         """
         if strategy not in ['char', 'word', 'bpe']:
             raise ValueError(f"Strategy must be 'char', 'word', or 'bpe', got '{strategy}'")
-        
+
         self.strategy = strategy
+        self.debug = debug  # Enable "under the hood" visualization
         self.vocab: Dict[str, int] = {}          # token -> id
         self.inverse_vocab: Dict[int, str] = {}  # id -> token
-        
+
         # Special tokens
         self.unk_token = '<UNK>'  # Unknown token
         self.pad_token = '<PAD>'  # Padding token
-        
+
         # BPE-specific: list of merge rules learned during training
         self.merges: List[Tuple[str, str]] = []
+
+        # 🔍 UNDER THE HOOD: Training statistics for visualization
+        self.training_stats = {
+            'total_chars': 0,
+            'unique_chars': 0,
+            'total_words': 0,
+            'unique_words': 0,
+            'bpe_iterations': 0,
+            'compression_ratio': 1.0
+        }
     
     # =========================================================================
     # PART 1: CHARACTER TOKENIZATION (Start here!)
@@ -72,36 +84,96 @@ class SimpleTokenizer:
     def _train_char(self, corpus: List[str]) -> None:
         """
         Build character vocabulary from corpus.
-        
+
         This is the simplest approach: each unique character gets an ID.
-        
+
         Example:
             corpus = ["hello"]
             vocab = {'h': 0, 'e': 1, 'l': 2, 'o': 3}
         """
+        # 🔍 UNDER THE HOOD: Show what we're processing
+        if self.debug:
+            print("\n" + "="*60)
+            print("🔍 CHARACTER TOKENIZER TRAINING - UNDER THE HOOD")
+            print("="*60)
+            print(f"📥 Input: {len(corpus)} documents")
+            for i, doc in enumerate(corpus[:3]):  # Show first 3
+                print(f"   Doc {i+1}: '{doc[:50]}{'...' if len(doc) > 50 else ''}'")
+            if len(corpus) > 3:
+                print(f"   ... and {len(corpus) - 3} more")
+
         # Step 1: Combine all texts into one string
         all_text = ''.join(corpus)
-        
+
+        if self.debug:
+            print(f"\n📊 Step 1: Combined all text")
+            print(f"   Total characters: {len(all_text)}")
+            print(f"   Sample: '{all_text[:100]}{'...' if len(all_text) > 100 else ''}'")
+
         # Step 2: Find all unique characters
         unique_chars = set(all_text)
-        
+
+        if self.debug:
+            print(f"\n🎯 Step 2: Found unique characters")
+            print(f"   Unique chars: {len(unique_chars)}")
+            print(f"   Characters: {sorted(unique_chars)[:20]}{'...' if len(unique_chars) > 20 else ''}")
+
         # Step 3: Sort them for reproducibility
         sorted_chars = sorted(unique_chars)
-        
+
+        if self.debug:
+            print(f"\n📋 Step 3: Sorted characters alphabetically")
+
         # Step 4 & 5: Assign IDs and store
         self.vocab = {char: idx for idx, char in enumerate(sorted_chars)}
         self.inverse_vocab = {idx: char for char, idx in self.vocab.items()}
+
+        # Update stats
+        self.training_stats['total_chars'] = len(all_text)
+        self.training_stats['unique_chars'] = len(unique_chars)
+
+        if self.debug:
+            print(f"\n✅ Step 4-5: Built vocabulary mapping")
+            print(f"   Vocabulary size: {len(self.vocab)}")
+            print(f"   Example mappings:")
+            for char, idx in list(self.vocab.items())[:10]:
+                print(f"      '{char}' → {idx}")
+            if len(self.vocab) > 10:
+                print(f"      ... and {len(self.vocab) - 10} more")
+            print("="*60)
     
     def _encode_char(self, text: str) -> List[int]:
         """
         Encode text as a list of character IDs.
-        
+
         Example:
             text = "hello"
             output = [0, 1, 2, 2, 3]  # h=0, e=1, l=2, o=3
         """
+        # 🔍 UNDER THE HOOD: Show encoding process
+        if self.debug:
+            print("\n" + "-"*60)
+            print(f"🔢 ENCODING: '{text[:50]}{'...' if len(text) > 50 else ''}'")
+            print("-"*60)
+
         # For each character, look up its ID (skip unknown chars)
-        return [self.vocab[char] for char in text if char in self.vocab]
+        result = []
+        for i, char in enumerate(text):
+            if char in self.vocab:
+                token_id = self.vocab[char]
+                result.append(token_id)
+                if self.debug and i < 10:  # Show first 10
+                    print(f"   '{char}' → {token_id}")
+            elif self.debug and i < 10:
+                print(f"   '{char}' → SKIPPED (not in vocab)")
+
+        if self.debug:
+            if len(text) > 10:
+                print(f"   ... and {len(text) - 10} more characters")
+            print(f"✅ Result: {len(result)} tokens")
+            print("-"*60)
+
+        return result
     
     def _decode_char(self, tokens: List[int]) -> str:
         """
@@ -134,32 +206,73 @@ class SimpleTokenizer:
     def _train_word(self, corpus: List[str], vocab_size: int = 10000) -> None:
         """
         Build word vocabulary from corpus.
-        
+
         We want the most COMMON words in our vocabulary.
-        
+
         Example:
             corpus = ["hello world", "hello there"]
             vocab = {'<UNK>': 0, '<PAD>': 1, 'hello': 2, 'world': 3, 'there': 4}
         """
+        # 🔍 UNDER THE HOOD: Show training process
+        if self.debug:
+            print("\n" + "="*60)
+            print("🔍 WORD TOKENIZER TRAINING - UNDER THE HOOD")
+            print("="*60)
+            print(f"📥 Input: {len(corpus)} documents")
+            print(f"🎯 Target vocabulary size: {vocab_size}")
+
         # Step 1: Tokenize all texts into words
         all_words = []
         for text in corpus:
             all_words.extend(self._tokenize_text(text))
-        
+
+        if self.debug:
+            print(f"\n📊 Step 1: Tokenized all documents")
+            print(f"   Total words: {len(all_words)}")
+            print(f"   First 10 words: {all_words[:10]}")
+
         # Step 2: Count word frequencies
         word_counts = Counter(all_words)
-        
+
+        if self.debug:
+            print(f"\n🎯 Step 2: Counted word frequencies")
+            print(f"   Unique words: {len(word_counts)}")
+            print(f"   Top 10 most common:")
+            for word, count in word_counts.most_common(10):
+                print(f"      '{word}': {count} times")
+
         # Step 3: Keep top (vocab_size - 2) words
         most_common = word_counts.most_common(vocab_size - 2)
-        
+
+        if self.debug:
+            print(f"\n📋 Step 3: Selected top {len(most_common)} words")
+            print(f"   (Reserving 2 slots for special tokens)")
+
         # Step 4: Add special tokens first
         self.vocab = {self.unk_token: 0, self.pad_token: 1}
         self.inverse_vocab = {0: self.unk_token, 1: self.pad_token}
-        
+
+        if self.debug:
+            print(f"\n🏷️  Step 4: Added special tokens")
+            print(f"   {self.unk_token} → 0 (for unknown words)")
+            print(f"   {self.pad_token} → 1 (for padding sequences)")
+
         # Step 5 & 6: Assign IDs to most common words
-        for idx, (word, _) in enumerate(most_common, start=2):
+        for idx, (word, count) in enumerate(most_common, start=2):
             self.vocab[word] = idx
             self.inverse_vocab[idx] = word
+
+        # Update stats
+        self.training_stats['total_words'] = len(all_words)
+        self.training_stats['unique_words'] = len(word_counts)
+
+        if self.debug:
+            print(f"\n✅ Step 5-6: Built final vocabulary")
+            print(f"   Final vocabulary size: {len(self.vocab)}")
+            print(f"   Coverage: {len(most_common)}/{len(word_counts)} unique words")
+            coverage_pct = len(most_common) / len(word_counts) * 100
+            print(f"   ({coverage_pct:.1f}% of unique words)")
+            print("="*60)
     
     def _encode_word(self, text: str) -> List[int]:
         """
@@ -405,6 +518,31 @@ class SimpleTokenizer:
     def vocab_size(self) -> int:
         """Return the size of the vocabulary."""
         return len(self.vocab)
+
+    def get_stats(self) -> dict:
+        """
+        🔍 UNDER THE HOOD: Get detailed statistics about the tokenizer.
+
+        Returns a dictionary with training metrics and performance stats.
+        Useful for understanding what's happening inside the tokenizer!
+        """
+        stats = self.training_stats.copy()
+        stats['vocab_size'] = len(self.vocab)
+        stats['strategy'] = self.strategy
+
+        if self.strategy == 'bpe':
+            stats['num_merges'] = len(self.merges)
+
+        # Calculate compression ratio if we have the data
+        if stats['total_chars'] > 0 and stats.get('total_words', 0) > 0:
+            if self.strategy == 'word':
+                # For word tokenizer: compare words to chars
+                stats['compression_ratio'] = stats['total_chars'] / stats['total_words']
+            elif self.strategy == 'char':
+                # For char tokenizer: no compression (1:1)
+                stats['compression_ratio'] = 1.0
+
+        return stats
 
 
 # =============================================================================
