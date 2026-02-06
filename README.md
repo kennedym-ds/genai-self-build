@@ -6,14 +6,15 @@
 
 ## What Is This?
 
-A 6-part workshop series where participants build GenAI components from scratch. No magic, no black boxes — just Python and understanding.
+A 6-part workshop series where participants build GenAI components **from scratch**. No magic, no black boxes — just Python and understanding.
 
 Each workshop is **1 hour** (45 min teaching/demo + 15 min Q&A) and includes:
-- Complete Python implementation
+- Complete Python implementation **with debug mode**
 - Interactive Streamlit demo
 - Comprehensive test suite
 - Presentation slides
 - Cheatsheet and Q&A guide
+- **🔍 "Under the Hood" documentation** revealing how it really works
 
 ## 🎯 The Workshops
 
@@ -163,6 +164,36 @@ We build everything from scratch (or near-scratch) using NumPy:
 - **Simplified but real** — Same algorithms, smaller scale
 - **Learn by doing** — Build it yourself to understand it
 
+### 🔍 Under the Hood Features
+
+**NEW!** All implementations include debug mode for deep learning:
+
+```python
+from tokenizer import SimpleTokenizer
+
+# Enable debug mode to see internals
+tokenizer = SimpleTokenizer(strategy='word', debug=True)
+tokenizer.train(corpus)  # Shows step-by-step training process
+
+# Get detailed statistics
+stats = tokenizer.get_stats()
+print(f"Vocabulary covers {stats['unique_words']} words")
+print(f"Compression ratio: {stats['compression_ratio']:.1f}x")
+```
+
+**What you'll see:**
+- ✅ Step-by-step algorithm execution
+- ✅ Intermediate data transformations
+- ✅ Performance metrics and statistics
+- ✅ Decision points and why they're made
+- ✅ Comparison to production systems
+
+**Try it:**
+```bash
+cd workshops/01-tokenization
+python under_the_hood_demo.py  # Interactive demo with debug mode
+```
+
 ## 📖 Documentation
 
 | Document | Description |
@@ -170,6 +201,7 @@ We build everything from scratch (or near-scratch) using NumPy:
 | **[User Guide](docs/USER_GUIDE.md)** | Getting started, running demos, learning tips |
 | **[Teacher Guide](docs/TEACHER_GUIDE.md)** | Facilitation tips, session timelines, handling Q&A |
 | **[Workshop Plan](docs/workshop-plan.md)** | Complete curriculum and session details |
+| **[🔍 Under the Hood](docs/UNDER_THE_HOOD.md)** | **NEW!** Deep dive into algorithms, comparisons to production systems |
 
 ## 📖 Additional Resources
 
