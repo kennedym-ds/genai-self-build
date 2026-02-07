@@ -27,7 +27,26 @@ Each workshop is **1 hour** (45 min teaching/demo + 15 min Q&A) and includes:
 | 5 | **Transformers** | 🧠 Complete alien brain | Mini decoder-only transformer |
 | 6 | **RAG** | 🔍 Search engine + brain | Complete retrieval-augmented generation |
 
-## �️ Screenshots
+## 📖 The Story: Zara's Journey
+
+The workshops are woven together by a **narrative thread** — the journey of **Zara**, a Zorathian scientist who lands on Earth and must learn to understand human language from scratch.
+
+Each workshop is a chapter in her story:
+
+| Chapter | Zara's Challenge | What She Builds |
+|---------|-----------------|-----------------|
+| 📕 The Codebook | Can't read human text | A tokenizer to turn symbols → numbers |
+| 📗 The Map | Numbers don't capture meaning | An embedding space where similar = nearby |
+| 📘 The Library | Too many vectors to search | A vector database with instant lookup |
+| 📙 The Spotlight | Context keeps confusing her | An attention mechanism to focus |
+| 📓 The Brain | Needs to assemble everything | A complete transformer architecture |
+| 📔 The Search Engine | Her brain hallucinates | RAG — look things up before answering |
+
+> *By the end, Zara has built every component of a modern AI system — and so have you.*
+
+See **[📖 Story Guide](docs/STORY_GUIDE.md)** for the complete narrative with presenter scripts, transition lines, and emotional arc guidance.
+
+## 📷 Screenshots
 
 <p align="center">
   <img src="docs/pictures/unified-demo.png" alt="Unified Demo" width="800"/>
@@ -198,10 +217,11 @@ python under_the_hood_demo.py  # Interactive demo with debug mode
 
 | Document | Description |
 |----------|-------------|
+| **[📖 Story Guide](docs/STORY_GUIDE.md)** | Narrative framework with presenter scripts and transition lines |
 | **[User Guide](docs/USER_GUIDE.md)** | Getting started, running demos, learning tips |
 | **[Teacher Guide](docs/TEACHER_GUIDE.md)** | Facilitation tips, session timelines, handling Q&A |
 | **[Workshop Plan](docs/workshop-plan.md)** | Complete curriculum and session details |
-| **[🔍 Under the Hood](docs/UNDER_THE_HOOD.md)** | **NEW!** Deep dive into algorithms, comparisons to production systems |
+| **[🔍 Under the Hood](docs/UNDER_THE_HOOD.md)** | Deep dive into algorithms, comparisons to production systems |
 
 ## 📖 Additional Resources
 
