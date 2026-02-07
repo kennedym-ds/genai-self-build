@@ -325,7 +325,7 @@ The workshop series has a narrative protagonist — **Zara**, a Zorathian scient
 
 ### Why Story Matters
 
-- People remember **stories 22x better** than isolated facts
+- People retain **information embedded in stories far better** than isolated facts
 - A character creates **emotional investment** in the technical content
 - Narrative transitions make workshop connections **feel natural**
 - Struggling alongside Zara **normalizes confusion** — even a genius alien finds this hard

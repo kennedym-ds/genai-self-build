@@ -6,7 +6,7 @@
 
 ## 🎭 Why Tell a Story?
 
-Research shows that people remember **stories 22x better than facts alone**. Instead of presenting 6 disconnected technical workshops, we weave them into a single narrative journey — making the learning memorable, emotional, and deeply connected.
+Research shows that people retain **information embedded in stories far better than isolated facts**. Instead of presenting 6 disconnected technical workshops, we weave them into a single narrative journey — making the learning memorable, emotional, and deeply connected.
 
 This guide gives you a complete story arc, character motivation, chapter transitions, and presenter scripts to transform a technical workshop into an unforgettable learning experience.
 
