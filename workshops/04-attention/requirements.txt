@@ -1,5 +1,0 @@
-# Workshop 4: Attention Mechanism
-# Dependencies for the attention workshop
-
-numpy>=1.21.0
-streamlit>=1.28.0

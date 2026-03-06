@@ -44,16 +44,13 @@ That moment of opening — that flood of visual information — that's what toda
 
 <!-- _backgroundColor: #000000 -->
 
-# Imagine you've never seen a shape.
-
-Not a circle. Not a square. Not a line.
-
-You come from a world of **pure sound**.
-
-You perceive the universe through vibrations, frequencies, echoes.
+![bg contain](https://via.placeholder.com/1920x1080/000000/60a5fa?text=World+of+Pure+Sound)
 
 <!--
 SPEAKER NOTES:
+Imagine you've never seen a shape. Not a circle. Not a square. Not a line.
+You come from a world of pure sound.
+You perceive the universe through vibrations, frequencies, echoes.
 Really sit with this. You're brilliant. A scientist. But you have zero concept of edges, corners, or color. Now imagine you crash-land on Earth…
 -->
 
@@ -63,7 +60,7 @@ Really sit with this. You're brilliant. A scientist. But you have zero concept o
 
 # You open your eyes for the first time.
 
-![bg right:60% contain](https://via.placeholder.com/800x600/0f172a/60a5fa?text=🔴🟢🔵🟡%0A🔷🟣⬛🟠%0A△□○◇%0ACHAOS)
+![bg right:60% contain](images/chaotic_shapes.png)
 
 And you see… **this**.
 
@@ -76,6 +73,8 @@ Every pixel. Every color. Every edge. All at once. Pure visual noise.
 ---
 
 # Meet Zara 🛸
+
+![bg right:40% contain](images/zara_alien.png)
 
 - Alien scientist from Zorath-7
 - World of pure sound — she "sees" with echolocation
@@ -101,63 +100,54 @@ Zara is our guide. Her confusion is real — it's exactly the confusion a neural
 
 ---
 
-# Zara's first problem: overwhelm
-
-> There's TOO MUCH to look at. Every pixel, every color, every edge — it's all noise.
-
-She needs to break what she sees into **manageable pieces**.
-
----
-
 # Attempt 1: Look at every pixel
 
-- One pixel at a time
-- Grid of tiny color values
+![bg contain](images/chaotic_shapes.png)
 
-> Like trying to understand a song by listening to **one air molecule vibrating** at a time.
-
-📊 Result: **100 tokens** for a simple house. Technically complete. Practically useless.
+<!--
+SPEAKER NOTES:
+Zara's first problem: overwhelm. There's TOO MUCH to look at. 
+She needs to break what she sees into manageable pieces.
+Attempt 1: Look at every pixel at a time. It's a grid of tiny color values.
+Like trying to understand a song by listening to one air molecule vibrating at a time.
+Result: 100 tokens for a simple house. Technically complete. Practically useless.
+-->
 
 ---
 
 # Attempt 2: Memorize whole shapes
 
-- "That's a circle! That's a rectangle!"
-- Works great… until she sees something new
+> "That's a circle! That's a rectangle!"
 
-> "What IS that?! It's not in my catalog!"
-
-📊 Result: **5 tokens** — compact, but breaks on anything unfamiliar.
+Works great… until she sees something new.
 
 ---
 
 # Attempt 3: Learn the PARTS 🧩
 
-- Corners repeat. Edges repeat. Curves repeat.
-- Build an **alphabet of shape-parts**
-- Describe ANY shape as a combination of known parts
+![bg center:60% contain](images/shape_parts.png)
 
-> Like BPE in text — `"un"` + `"break"` + `"able"` → covers words you've never seen.
-
-📊 Result: **12 tokens** — flexible, efficient, handles novelty.
+<!--
+SPEAKER NOTES:
+Attempt 3: Learn the PARTS.
+Corners repeat. Edges repeat. Curves repeat. Build an alphabet of shape-parts.
+Describe ANY shape as a combination of known parts.
+Like BPE in text — "un" + "break" + "able" covers words you've never seen.
+Result: 12 tokens — flexible, efficient, handles novelty.
+-->
 
 ---
 
 # This is tokenization.
 
-| Strategy | Text Equivalent | Tokens for "house" | Handles novelty? |
-|----------|-----------------|---------------------|-------------------|
-| Pixel    | Character-level  | ~100               | ✅ Yes (slowly)   |
-| Shape    | Word-level       | ~5                 | ❌ No             |
-| Part     | BPE / subword    | ~12                | ✅ Yes!           |
-
-> When you upload a photo to ChatGPT, it gets chopped into 16×16 patches.
-> Each patch becomes a token. That's **ViT tokenization**.
+![center height:400px](images/tokenizer.png)
 
 <!--
 SPEAKER NOTES:
 [DEMO MOMENT — switch to Streamlit Tab 1: Shape Tokenizer]
 Let me show you this live…
+When you upload a photo to ChatGPT, it gets chopped into 16×16 patches.
+Each patch becomes a token. That's ViT tokenization.
 -->
 
 ---
@@ -174,21 +164,15 @@ Let me show you this live…
 
 # The number problem
 
-Zara gave each part a number.
+![bg contain](images/embeddings.png)
 
-Edge-type-42. Edge-type-43.
-
-But a **sharp corner** and a **gentle curve** are one number apart.
-
-> The numbers are meaningless.
-
----
-
-# So she builds a map 🗺️
-
-- Similar shapes live **close together**
-- Different shapes live **far apart**
-- The map captures **relationships**
+<!--
+SPEAKER NOTES:
+Zara gave each part a number. Edge-type-42. Edge-type-43.
+But a sharp corner and a gentle curve are one number apart. The numbers are meaningless.
+So she builds a map where similar shapes live close together and different shapes live far apart.
+The map captures relationships!
+-->
 
 > If `triangle + rectangle = house`…
 > then `dome + rectangle ≈ mosque`
@@ -203,7 +187,7 @@ Every shape becomes a **point in space**.
 
 **Meaning = distance.**
 
-![bg right:50% contain](https://via.placeholder.com/600x500/0f172a/60a5fa?text=Cluster%20Map%0A🏠🏢🏗️%0A%0A🌲🌳🌿%0A%0A🚗🚢✈️)
+![bg right:50% contain](images/embeddings.png)
 
 <!--
 SPEAKER NOTES:
@@ -214,19 +198,19 @@ Watch how similar scenes cluster together…
 
 ---
 
-# The library problem
-
-Zara has collected **thousands** of shape arrangements.
-
-When she sees something new, she wants to ask:
-
-> "Have I seen something **like this** before?"
-
-She needs a library where you search by **similarity**, not by name.
-
----
-
 # 📚 The Shape Library
+
+![bg contain](images/human_vector_db.png)
+
+<!--
+SPEAKER NOTES:
+Zara has collected thousands of shape arrangements.
+When she sees something new, she wants to ask: "Have I seen something like this before?"
+She needs a library where you search by similarity, not by name.
+Pick a query -> find the nearest neighbors by vector distance.
+Quick audience check: raise your hand if you've ever flipped through old tape-outs looking for something "kind of like" what you're working on now.
+Congratulations — you're a human vector database.
+-->
 
 Pick a query → find the nearest neighbors by vector distance.
 
@@ -234,19 +218,14 @@ Pick a query → find the nearest neighbors by vector distance.
 >
 > Google Photos, Spotify recommendations, and semantic code search all use this.
 
+![center height:400px](images/vectordb.png)
+
 <!--
 SPEAKER NOTES:
 [DEMO MOMENT — switch to Streamlit Tab 3: Shape Library]
 Let's search for scenes similar to "house"…
+This is a vector database. Google Photos, Spotify recommendations, and semantic code search all use this.
 -->
-
----
-
-# 🙋 Quick audience check
-
-> Raise your hand if you've ever flipped through old tape-outs looking for something "kind of like" what you're working on now.
-
-**Congratulations — you're a human vector database.**
 
 ---
 
@@ -262,46 +241,30 @@ Let's search for scenes similar to "house"…
 
 # The context problem
 
-Zara sees a **red circle**.
+![bg contain](images/spotlight_system.png)
 
-She treats it the same whether it's on a **traffic light** or a **clown's nose**.
-
-> Same shape. Very different meaning.
-
-She needs to learn: **what's around it matters**.
-
----
-
-# The spotlight system 🔦
-
-Every shape shines a spotlight on every other shape and asks:
-
-> "Are you important to me?"
-
-**Four spotlights**, each looking for a different relationship:
-
-| Head | Looks For |
-|------|-----------|
-| 🔦 Proximity | Shapes that are physically close |
-| 🎨 Color Match | Shapes that share a color |
-| 📐 Alignment | Shapes on the same horizontal/vertical line |
-| 📦 Containment | Shapes nested inside others |
+<!--
+SPEAKER NOTES:
+Zara sees a red circle. She treats it the same whether it's on a traffic light or a clown's nose.
+Same shape. Very different meaning.
+She needs to learn: what's around it matters.
+The spotlight system: Every shape shines a spotlight on every other shape and asks: "Are you important to me?"
+Four spotlights, each looking for a different relationship: Proximity, Color Match, Alignment, Containment.
+-->
 
 ---
 
-# Attention heatmaps
-
-When Zara looks at a house:
-- The **roof** attends strongly to the **walls** (proximity + alignment)
-- The **windows** attend to each other (color match)
-- The **door** attends to the **wall** it sits in (containment)
-
-> This is **multi-head self-attention** — the breakthrough from 2017.
+![center height:400px](images/attention.png)
 
 <!--
 SPEAKER NOTES:
 [DEMO MOMENT — switch to Streamlit Tab 4: Attention Heatmap]
 Toggle between heads to see different relationship types…
+When Zara looks at a house:
+The roof attends strongly to the walls (proximity + alignment)
+The windows attend to each other (color match)
+The door attends to the wall it sits in (containment)
+This is multi-head self-attention — the breakthrough from 2017.
 -->
 
 ---
@@ -316,7 +279,7 @@ Zara stacks all her tools into one system:
 
 Her first attempt is… not great.
 
-🏠 *(house with roof underground, tree growing sideways)*
+![bg right:50% contain](images/bad_house.png)
 
 **[pause for laughs]**
 
@@ -324,14 +287,16 @@ Her first attempt is… not great.
 
 # Same architecture. Different scale.
 
-| System | Parameters | Quality |
-|--------|-----------|---------|
-| Zara's toy | ~10,000 | Amusing |
-| DALL-E 3 | ~3 billion | Impressive |
-| GPT-4V | ~1.8 trillion | Mind-blowing |
+![bg contain](images/same_engine_different_scale.png)
 
-> The engine is the same.
-> The horsepower is **enormously** different.
+<!--
+SPEAKER NOTES:
+Zara's toy: ~10,000 parameters. Amusing.
+DALL-E 3: ~3 billion. Impressive.
+GPT-4V: ~1.8 trillion. Mind-blowing.
+The engine is the same.
+The horsepower is enormously different.
+-->
 
 ---
 
@@ -347,9 +312,10 @@ Her first attempt is… not great.
 
 # The hallucination problem
 
-Zara's generator sometimes creates nonsense:
-- A five-sided stop sign
-- A face with the mouth above the eyes
+![bg right:40% contain](images/hallucination_stop_sign.png)
+
+Zara's generator sometimes creates nonsense.
+A five-sided stop sign. A face with the mouth above the eyes.
 
 Her solution is **brilliantly humble**:
 
@@ -360,16 +326,15 @@ Her solution is **brilliantly humble**:
 
 # This is RAG
 
-**Retrieval-Augmented Generation**
+![bg contain](images/look_before_create.png)
 
-```
-Request → Search library → Retrieve examples → Generate (guided) → Output
-```
-
-> It's why ChatGPT can answer questions about today's news
-> even though it was trained months ago. **It looks things up first.**
-
+<!--
+SPEAKER NOTES:
+This is RAG: Retrieval-Augmented Generation
+Request -> Search library -> Retrieve examples -> Generate (guided) -> Output
+It's why ChatGPT can answer questions about today's news even though it was trained months ago. It looks things up first.
 And it's why AI for YOUR world doesn't have to hallucinate layouts from scratch.
+-->
 
 ---
 
@@ -383,18 +348,20 @@ And it's why AI for YOUR world doesn't have to hallucinate layouts from scratch.
 
 # Zara's complete journey
 
-| Step | What Zara Learned | GenAI Concept |
-|------|-------------------|---------------|
-| 🧩 | Break images into pieces | Tokenization |
-| 🗺️ | Map meaning into space | Embeddings |
-| 📚 | Build a searchable library | Vector Database |
-| 👀 | Learn which relationships matter | Attention |
-| 🧠 | Generate new arrangements | Transformers |
-| 🔍 | Check your work against examples | RAG |
+![center height:150px](images/journey_six_icons.png)
+
+1. **Break images into pieces** (Tokenization)
+2. **Map meaning into space** (Embeddings)
+3. **Build a searchable library** (Vector Database)
+4. **Learn relationships** (Attention)
+5. **Generate new shapes** (Transformers)
+6. **Check your work** (RAG)
 
 ---
 
 # Now replace "shapes" with…
+
+![center height:300px](images/shape_vs_layout.png)
 
 - **Shapes** → Polygons on metal layers
 - **Arrangements** → Layout floorplans
@@ -429,18 +396,15 @@ And it's why AI for YOUR world doesn't have to hallucinate layouts from scratch.
 
 # The last 20%
 
-Zara learned to see **patterns**.
+![bg contain](images/last_20_percent.png)
 
-But she never learned **taste**.
-
-She doesn't know why you put those guard rings there.
-She doesn't feel the intuition that says *"that parasitic is going to bite us."*
-She doesn't have twenty years of tribal knowledge about what works at your foundry.
-
-> AI is the most talented **intern** you've ever had.
-> It remembers every layout. It searches in milliseconds. It suggests first-pass placement.
->
-> **The last 20% is you. That's the art. That's not going anywhere.**
+<!--
+SPEAKER NOTES:
+Zara learned to see patterns. But she never learned taste.
+She doesn't know why you put those guard rings there. She doesn't have twenty years of tribal knowledge about what works at your foundry.
+AI is the most talented intern you've ever had. It remembers every layout. It searches in milliseconds. It suggests first-pass placement.
+The last 20% is you. That's the art. That's not going anywhere.
+-->
 
 ---
 

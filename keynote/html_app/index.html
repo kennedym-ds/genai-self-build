@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛸 Zara's Shape World</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="shape_data.js"></script>
+    <script src="shapes_core.js"></script>
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
+        .token-box {
+            display: inline-block; padding: 4px 8px; margin: 2px;
+            border-radius: 4px; font-family: monospace; font-size: 13px; color: white;
+        }
+        .tok-pixel  { background-color: #3b82f6; }
+        .tok-shape  { background-color: #8b5cf6; }
+        .tok-part   { background-color: #10b981; }
+        
+        .scene-container {
+            position: relative; background: #1e293b; border: 2px solid #334155;
+            border-radius: 8px; overflow: hidden;
+        }
+        .shape-element {
+            position: absolute; display: flex; align-items: center; justify-content: center;
+            font-size: 10px; color: white; text-shadow: 1px 1px 2px #000;
+            border-width: 2px; border-style: solid; border-radius: 4px;
+        }
+        
+        .tab-btn {
+            padding: 10px 16px; font-weight: 500; cursor: pointer;
+            border-bottom: 2px solid transparent; color: #94a3b8; transition: all 0.2s;
+        }
+        .tab-btn.active { border-bottom-color: #60a5fa; color: #60a5fa; }
+        .tab-content { display: none; padding: 20px 0; }
+        .tab-content.active { display: block; }
+
+        .heatmap-cell {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 40px; height: 40px; margin: 1px; font-size: 10px; 
+            border-radius: 4px; color: black; font-weight: bold;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-slate-900 border-b border-slate-800 p-6 flex flex-col md:flex-row justify-between items-start md:items-center">
+        <div>
+            <h1 class="text-3xl font-bold text-white mb-2">🛸 Zara Crash-Lands in Shape World</h1>
+            <p class="text-slate-400 italic">An alien learns to see — and accidentally explains GenAI</p>
+        </div>
+        <div class="mt-4 md:mt-0 flex items-center space-x-4 bg-slate-800 p-3 rounded-lg border border-slate-700">
+            <label class="text-sm font-medium text-slate-300">Choose a scene:</label>
+            <select id="scene-selector" class="bg-slate-900 text-white border border-slate-600 rounded px-3 py-1 outline-none focus:border-blue-500">
+                <!-- Populated via JS -->
+            </select>
+        </div>
+    </header>
+
+    <main class="flex-grow p-6 max-w-7xl mx-auto w-full">
+        <!-- Tabs -->
+        <div class="flex border-b border-slate-700 mb-6 overflow-x-auto">
+            <button class="tab-btn active" data-tab="tab-token">🧩 Shape Tokenizer</button>
+            <button class="tab-btn" data-tab="tab-embed">🗺️ Meaning Map</button>
+            <button class="tab-btn" data-tab="tab-search">📚 Shape Library</button>
+            <button class="tab-btn" data-tab="tab-attn">👀 Attention Heatmap</button>
+        </div>
+
+        <!-- Tab 1: Tokenizer -->
+        <div id="tab-token" class="tab-content active">
+            <h2 class="text-2xl font-bold mb-2">Act 1: What Am I Looking At?</h2>
+            <p class="text-slate-400 mb-6 italic border-l-4 border-slate-500 pl-4 py-1">Zara is overwhelmed. She needs to break what she sees into manageable pieces. Three strategies — from raw pixels to smart shape-parts.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Scene View -->
+                <div class="col-span-1">
+                    <h3 class="font-semibold text-lg mb-3" id="token-scene-title">Scene</h3>
+                    <div id="token-scene-render" class="scene-container w-full aspect-square max-w-[400px]"></div>
+                </div>
+
+                <!-- Token Lists -->
+                <div class="col-span-2 space-y-6">
+                    <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="font-bold">🔲 Pixel Strategy <span class="text-sm font-normal text-slate-400 ml-2">Every pixel — 'one air molecule at a time'</span></h4>
+                            <span class="text-sm px-2 py-1 bg-slate-700 rounded" id="stat-pixel-tokens">0 Tokens</span>
+                        </div>
+                        <div id="tokens-pixel" class="max-h-32 overflow-y-auto w-full break-normal leading-[2.2]"></div>
+                    </div>
+
+                    <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="font-bold">📦 Shape Strategy <span class="text-sm font-normal text-slate-400 ml-2">Whole shapes — compact but brittle</span></h4>
+                            <span class="text-sm px-2 py-1 bg-slate-700 rounded" id="stat-shape-tokens">0 Tokens</span>
+                        </div>
+                        <div id="tokens-shape" class="max-h-32 overflow-y-auto leading-[2.2]"></div>
+                    </div>
+
+                    <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="font-bold">🧩 Sub-part Strategy <span class="text-sm font-normal text-slate-400 ml-2">Flexible alphabet (like BPE!)</span></h4>
+                            <span class="text-sm px-2 py-1 bg-slate-700 rounded" id="stat-part-tokens">0 Tokens</span>
+                        </div>
+                        <div id="tokens-part" class="max-h-32 overflow-y-auto leading-[2.2]"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Meaning Map -->
+        <div id="tab-embed" class="tab-content">
+            <h2 class="text-2xl font-bold mb-2">Act 2: Do These Go Together?</h2>
+            <p class="text-slate-400 mb-6 italic border-l-4 border-slate-500 pl-4 py-1">Zara gave each part a number. But the numbers are meaningless. She needs a map where similar shapes live close together — and meaning becomes distance.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-slate-800 p-6 rounded-lg border border-slate-700 flex flex-col items-center justify-center min-h-[400px] relative">
+                    <h3 class="font-bold text-center mb-4 absolute top-4">2D Meaning Map (Mock Projection)</h3>
+                    <div id="embed-map-container" class="relative w-full h-[300px] mt-8 bg-slate-900 rounded-lg border border-slate-700 overflow-hidden">
+                        <!-- Points go here -->
+                    </div>
+                </div>
+                <div class="bg-slate-800 p-6 rounded-lg border border-slate-700">
+                    <h3 class="font-semibold text-lg mb-4" id="embed-similarity-title">Most similar to: </h3>
+                    <div id="embed-similarity-list" class="space-y-4">
+                        <!-- Bars go here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Shape Library -->
+        <div id="tab-search" class="tab-content">
+            <h2 class="text-2xl font-bold mb-2">Act 2 (cont.): The Shape Library</h2>
+            <p class="text-slate-400 mb-6 italic border-l-4 border-slate-500 pl-4 py-1">When she sees something new, she asks: "Have I seen something like this before?" Search by similarity, not by name.</p>
+            
+            <h3 class="font-semibold text-lg mb-4" id="search-query-title">Query: </h3>
+            <div id="search-results-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Result cards go here -->
+            </div>
+        </div>
+
+        <!-- Tab 4: Attention Heatmap -->
+        <div id="tab-attn" class="tab-content">
+            <h2 class="text-2xl font-bold mb-2">Act 3: Wait, Context Matters!</h2>
+            <p class="text-slate-400 mb-6 italic border-l-4 border-slate-500 pl-4 py-1">Zara sees a red circle. She treats it the same whether it's on a traffic light or a clown's nose. She needs to learn what to focus on — which shapes relate to each other.</p>
+            
+            <div class="mb-6 flex space-x-2">
+                <button class="attn-head-btn px-4 py-2 text-sm bg-blue-600 text-white rounded font-medium" data-head="0">🔦 Proximity</button>
+                <button class="attn-head-btn px-4 py-2 text-sm bg-slate-700 hover:bg-slate-600 rounded font-medium" data-head="1">🎨 Color Match</button>
+                <button class="attn-head-btn px-4 py-2 text-sm bg-slate-700 hover:bg-slate-600 rounded font-medium" data-head="2">📐 Alignment</button>
+                <button class="attn-head-btn px-4 py-2 text-sm bg-slate-700 hover:bg-slate-600 rounded font-medium" data-head="3">📦 Containment</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="flex flex-col items-center">
+                    <h3 class="font-semibold mb-3">Attention Heatmap (<span id="attn-head-label">Proximity</span>)</h3>
+                    <div id="attn-heatmap-container" class="bg-slate-900 p-4 rounded-lg border border-slate-700 overflow-auto max-w-full">
+                        <!-- Heatmap rendered here -->
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-3" id="attn-scene-title">Scene Source</h3>
+                    <div id="attn-scene-render" class="scene-container w-full aspect-square max-w-[400px]"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const { SAMPLE_SCENES, LAYER_COLORS } = window.ShapeData;
+            const { ShapeTokenizer, ShapeEmbedding, ShapeAttention } = window.ShapesCore;
+
+            // --- State ---
+            const sceneNames = Object.keys(SAMPLE_SCENES);
+            let currentSceneName = sceneNames[0];
+            let activeTab = 'tab-token';
+            let activeAttnHead = 0;
+
+            // --- ML Engines ---
+            const tokPixel = new ShapeTokenizer('pixel');
+            const tokShape = new ShapeTokenizer('shape');
+            const tokPart = new ShapeTokenizer('part');
+            
+            const scenesList = Object.values(SAMPLE_SCENES);
+            tokPixel.train(scenesList);
+            tokShape.train(scenesList);
+            tokPart.train(scenesList);
+
+            const embedEngine = new ShapeEmbedding();
+            embedEngine.train(SAMPLE_SCENES); // creates mock 2D deterministic circle positions
+
+            const attnEngine = new ShapeAttention();
+
+            // --- DOM Elements ---
+            const selectScene = document.getElementById('scene-selector');
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const attnHeadBtns = document.querySelectorAll('.attn-head-btn');
+
+            // --- Init Selector ---
+            sceneNames.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.textContent = name;
+                selectScene.appendChild(opt);
+            });
+
+            selectScene.addEventListener('change', (e) => {
+                currentSceneName = e.target.value;
+                renderActiveTab();
+            });
+
+            // --- Tabs Logic ---
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabBtns.forEach(b => b.classList.remove('active', 'text-blue-400', 'border-blue-400'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    btn.classList.add('active');
+                    activeTab = btn.getAttribute('data-tab');
+                    document.getElementById(activeTab).classList.add('active');
+                    renderActiveTab();
+                });
+            });
+
+            // --- Attention Head Logic ---
+            attnHeadBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    attnHeadBtns.forEach(b => {
+                        b.classList.remove('bg-blue-600', 'text-white');
+                        b.classList.add('bg-slate-700');
+                    });
+                    btn.classList.remove('bg-slate-700');
+                    btn.classList.add('bg-blue-600', 'text-white');
+                    activeAttnHead = parseInt(btn.getAttribute('data-head'));
+                    document.getElementById('attn-head-label').textContent = btn.textContent.slice(2).trim();
+                    renderAttention();
+                });
+            });
+
+            // --- Render Helpers ---
+            function renderSceneHTML(scene, containerElement, scale = 40) {
+                containerElement.innerHTML = '';
+                // The container is 400x400 via CSS typically, so scale=40 means 10x10 units grid.
+                scene.shapes.forEach(s => {
+                    const div = document.createElement('div');
+                    div.className = 'shape-element';
+                    
+                    const colorHex = LAYER_COLORS[s.color] || "#888888";
+                    // convert hex to rgba
+                    const hexToRgba = (hex, alpha) => {
+                        const r = parseInt(hex.slice(1,3), 16);
+                        const g = parseInt(hex.slice(3,5), 16);
+                        const b = parseInt(hex.slice(5,7), 16);
+                        return `rgba(${r},${g},${b},${alpha})`;
+                    };
+
+                    div.style.left = `${s.x * scale}px`;
+                    div.style.top = `${s.y * scale}px`;
+                    div.style.width = `${s.w * scale}px`;
+                    div.style.height = `${s.h * scale}px`;
+                    div.style.backgroundColor = hexToRgba(colorHex, 0.4);
+                    div.style.borderColor = colorHex;
+                    div.textContent = s.label || s.type;
+                    
+                    containerElement.appendChild(div);
+                });
+            }
+
+            function renderTokens(tokenizer, scene, containerId, countId, cssClass) {
+                const ids = tokenizer.encode(scene);
+                const labels = tokenizer.decode(ids);
+                document.getElementById(countId).textContent = `${ids.length} Tokens`;
+                
+                // Truncate to save DOM if huge (like pixels)
+                const displayLabels = labels.slice(0, 150);
+                const html = displayLabels.map(l => `<span class="token-box ${cssClass}">${l}</span>`).join('');
+                document.getElementById(containerId).innerHTML = html + (labels.length > 150 ? '<span class="text-slate-500 text-sm ml-2">...truncated</span>' : '');
+            }
+
+            // --- Tab Renderers ---
+            function renderTokenizer() {
+                const scene = SAMPLE_SCENES[currentSceneName];
+                document.getElementById('token-scene-title').textContent = `Scene: ${currentSceneName}`;
+                renderSceneHTML(scene, document.getElementById('token-scene-render'), 40);
+
+                renderTokens(tokPixel, scene, 'tokens-pixel', 'stat-pixel-tokens', 'tok-pixel');
+                renderTokens(tokShape, scene, 'tokens-shape', 'stat-shape-tokens', 'tok-shape');
+                renderTokens(tokPart, scene, 'tokens-part', 'stat-part-tokens', 'tok-part');
+            }
+
+            function renderEmbeddings() {
+                const mapContainer = document.getElementById('embed-map-container');
+                mapContainer.innerHTML = '';
+                
+                const w = mapContainer.clientWidth;
+                const h = mapContainer.clientHeight;
+                const cx = w/2;
+                const cy = h/2;
+                const radius = Math.min(cx, cy) - 40;
+
+                // Simple mock distances: index proximity
+                const currentIdx = sceneNames.indexOf(currentSceneName);
+                
+                sceneNames.forEach((name, i) => {
+                    const pos = embedEngine.scenePositions[name]; // [-1 to 1] approx
+                    const px = cx + (pos[0] * radius);
+                    const py = cy + (pos[1] * radius);
+                    
+                    const dot = document.createElement('div');
+                    const isCurrent = name === currentSceneName;
+                    
+                    dot.style.position = 'absolute';
+                    dot.style.left = `${px}px`;
+                    dot.style.top = `${py}px`;
+                    dot.style.transform = 'translate(-50%, -50%)';
+                    dot.style.width = isCurrent ? '16px' : '10px';
+                    dot.style.height = isCurrent ? '16px' : '10px';
+                    dot.style.borderRadius = '50%';
+                    dot.style.backgroundColor = isCurrent ? '#f59e0b' : '#3b82f6';
+                    dot.style.border = '2px solid white';
+                    dot.style.zIndex = isCurrent ? '10' : '1';
+                    
+                    const label = document.createElement('div');
+                    label.style.position = 'absolute';
+                    label.style.left = `${px + 10}px`;
+                    label.style.top = `${py - 8}px`;
+                    label.style.fontSize = '10px';
+                    label.style.color = '#cbd5e1';
+                    label.textContent = name;
+                    
+                    mapContainer.appendChild(dot);
+                    mapContainer.appendChild(label);
+                });
+
+                // Mock similarity list
+                document.getElementById('embed-similarity-title').textContent = `Most similar to: ${currentSceneName}`;
+                const simList = document.getElementById('embed-similarity-list');
+                simList.innerHTML = '';
+                
+                // Fake score based on array distance (just for UI demo)
+                const mockScores = sceneNames.map((n, i) => {
+                    if (n === currentSceneName) return {name: n, score: 1.0};
+                    const dist = Math.abs(i - currentIdx);
+                    // wrap around
+                    const min_dist = Math.min(dist, sceneNames.length - dist);
+                    const score = 1.0 - (min_dist / sceneNames.length);
+                    return {name: n, score: score * 0.9 + (Math.random()*0.1)};
+                }).sort((a, b) => b.score - a.score);
+
+                mockScores.slice(1, 6).forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.innerHTML = `
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>${index+1}. ${item.name}</span>
+                            <span class="text-blue-400 font-mono">${item.score.toFixed(3)}</span>
+                        </div>
+                        <div class="w-full bg-slate-700 rounded-full h-2 rounded overflow-hidden">
+                            <div class="bg-blue-500 h-2" style="width: ${item.score * 100}%"></div>
+                        </div>
+                    `;
+                    simList.appendChild(div);
+                });
+            }
+
+            function renderSearch() {
+                document.getElementById('search-query-title').textContent = `Query: ${currentSceneName}`;
+                const grid = document.getElementById('search-results-grid');
+                grid.innerHTML = '';
+
+                // Same mock scoring logic as Embeddings tab for consistency
+                const currentIdx = sceneNames.indexOf(currentSceneName);
+                const mockScores = sceneNames.map((n, i) => {
+                    if (n === currentSceneName) return {name: n, score: 1.0};
+                    const dist = Math.abs(i - currentIdx);
+                    const min_dist = Math.min(dist, sceneNames.length - dist);
+                    const score = 1.0 - (min_dist / sceneNames.length);
+                    return {name: n, score: score * 0.9 + 0.1}; // Just ensuring it looks good visually
+                }).sort((a, b) => b.score - a.score).slice(0, 6);
+
+                mockScores.forEach(item => {
+                    const isQuery = item.name === currentSceneName;
+                    const scene = SAMPLE_SCENES[item.name];
+                    const card = document.createElement('div');
+                    card.className = `p-4 rounded-lg border flex flex-col items-center ${isQuery ? 'border-amber-500 bg-slate-800' : 'border-slate-700 bg-slate-800/50'}`;
+                    
+                    const title = document.createElement('div');
+                    title.className = 'font-bold mb-1 text-center';
+                    title.innerHTML = `${isQuery ? '⭐ ' : ''}${item.name}`;
+                    
+                    const score = document.createElement('div');
+                    score.className = 'text-blue-400 text-xs mb-3 font-mono';
+                    score.textContent = `sim: ${item.score.toFixed(3)}`;
+
+                    const sceneContainer = document.createElement('div');
+                    sceneContainer.className = 'relative bg-slate-900 border border-slate-700 rounded w-[200px] h-[200px] mt-auto';
+                    
+                    renderSceneHTML(scene, sceneContainer, 20); // 200px / 10 = 20 scale
+
+                    card.appendChild(title);
+                    card.appendChild(score);
+                    card.appendChild(sceneContainer);
+                    grid.appendChild(card);
+                });
+            }
+
+            function renderAttention() {
+                const scene = SAMPLE_SCENES[currentSceneName];
+                document.getElementById('attn-scene-title').textContent = `Scene: ${currentSceneName}`;
+                renderSceneHTML(scene, document.getElementById('attn-scene-render'), 40);
+
+                const container = document.getElementById('attn-heatmap-container');
+                container.innerHTML = '';
+
+                const { weights, labels } = attnEngine.compute_attention(scene);
+                if (weights.length === 0) {
+                    container.innerHTML = '<p class="text-yellow-500">No shapes in scene to attend to.</p>';
+                    return;
+                }
+
+                const headWeights = weights[activeAttnHead]; // nxn matrix
+                const n = labels.length;
+
+                // Build HTML Table representation
+                let html = '<table class="border-collapse text-xs"><tr><th></th>';
+                
+                // Top header (Attends TO)
+                labels.forEach(l => {
+                    html += `<th class="px-2 py-1 text-slate-400 rotate-[-45deg] whitespace-nowrap h-16 align-bottom"><div class="transform origin-bottom-left w-[40px] text-left">${l}</div></th>`;
+                });
+                html += '</tr>';
+
+                // Rows
+                headWeights.forEach((row, i) => {
+                    html += `<tr><th class="px-2 py-1 text-right text-slate-400 whitespace-nowrap">${labels[i]}</th>`;
+                    row.forEach(val => {
+                        // Map value [0-1] to a color gradient (YlOrRd simulation)
+                        // Light yellow to deep red
+                        const intensity = Math.min(1, Math.max(0, val));
+                        const r = 255;
+                        const g = Math.floor(255 - (180 * intensity));
+                        const b = Math.floor(200 - (200 * intensity)); // quick approx
+                        
+                        const textColor = intensity > 0.5 ? 'white' : 'black';
+                        html += `<td class="p-0 border border-slate-800">
+                            <div class="heatmap-cell" style="background-color: rgb(${r},${g},${b}); color: ${textColor}">
+                                ${(val).toFixed(2)}
+                            </div>
+                        </td>`;
+                    });
+                    html += '</tr>';
+                });
+                html += '</table>';
+                container.innerHTML = html;
+            }
+
+            function renderActiveTab() {
+                if (activeTab === 'tab-token') renderTokenizer();
+                else if (activeTab === 'tab-embed') renderEmbeddings();
+                else if (activeTab === 'tab-search') renderSearch();
+                else if (activeTab === 'tab-attn') renderAttention();
+            }
+
+            // --- Initial Load ---
+            renderActiveTab();
+        });
+    </script>
+</body>
+</html>
