@@ -138,6 +138,7 @@ workshop_choice = st.sidebar.radio(
     "Choose a workshop:",
     [
         "🏠 Home: The Big Picture",
+        "📖 Zara's Journey",
         "1️⃣ Tokenization",
         "2️⃣ Embeddings",
         "3️⃣ Vector Databases",
@@ -150,17 +151,18 @@ workshop_choice = st.sidebar.radio(
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("""
-### 🛸 The Alien Story
+### 🛸 Meet Zara
 
-An alien lands on Earth wanting to understand human language.
+Zara is a Zorathian scientist orbiting Earth.
+She can intercept human text — but can't understand a word.
 
-Each workshop teaches them a new skill:
-1. **Tokenize** - Learn to read symbols
-2. **Embed** - Create a meaning map  
-3. **Store** - Build a magic library
-4. **Attend** - Focus on what matters
-5. **Transform** - Build a complete brain
-6. **RAG** - Get a search engine
+Follow her journey through 6 chapters:
+1. **📕 The Codebook** — Learn to read symbols
+2. **📗 The Map** — Discover meaning in math
+3. **📘 The Library** — Store & search knowledge
+4. **📙 The Spotlight** — Focus on what matters
+5. **📓 The Brain** — Assemble a thinking machine
+6. **📔 The Search Engine** — Ground answers in facts
 """)
 
 
@@ -261,13 +263,275 @@ if workshop_choice == "🏠 Home: The Big Picture":
 
 
 # ============================================================================
+# ZARA'S JOURNEY: THE NARRATIVE THREAD
+# ============================================================================
+elif workshop_choice == "📖 Zara's Journey":
+    st.markdown("## 📖 Zara's Journey: From Silence to Understanding")
+    st.markdown("### *The story that connects all 6 workshops*")
+
+    st.markdown("""
+    > *"What I cannot create, I do not understand."* — Richard Feynman
+
+    Follow **Zara**, a Zorathian scientist orbiting Earth, as she builds —
+    from scratch — every component needed to understand human language.
+    Her journey mirrors exactly how modern AI systems like ChatGPT were built.
+    """)
+
+    # Zara's backstory
+    with st.expander("🛸 Meet Zara — The Backstory", expanded=True):
+        st.markdown("""
+        Zara is a brilliant scientist from the planet Zorath-7. She's been observing
+        Earth from orbit, intercepting millions of text messages, emails, and web pages.
+
+        But she faces one fundamental problem: **she cannot understand a single word.**
+
+        On Zorath-7, communication is through electromagnetic pulses — pure numbers
+        and frequencies. So when Zara sees `"Hello, how are you?"`, it looks like
+        meaningless noise — the same way `"✧⚡↯∞⊕✧"` looks to you.
+
+        Zara is determined. She will learn to understand human language.
+        But she'll do it **her way** — by breaking it down into numbers, math, and patterns.
+        """)
+
+    st.markdown("---")
+    st.markdown("### 🎬 The Six Chapters")
+
+    # Chapter navigation
+    chapter = st.selectbox(
+        "Choose a chapter:",
+        [
+            "📕 Chapter 1: The Codebook (Tokenization)",
+            "📗 Chapter 2: The Map (Embeddings)",
+            "📘 Chapter 3: The Library (Vector Databases)",
+            "📙 Chapter 4: The Breakthrough (Attention)",
+            "📓 Chapter 5: The Brain (Transformers)",
+            "📔 Chapter 6: The Connection (RAG)",
+        ]
+    )
+
+    if "Chapter 1" in chapter:
+        st.markdown("""
+        ## 📕 Chapter 1: The Codebook
+
+        > *Zara stares at her screen. Millions of intercepted Earth transmissions
+        > scroll past — but they're just shapes. Meaningless symbols. She needs to
+        > start somewhere, so she asks the simplest question: "Can I turn these
+        > symbols into numbers?"*
+
+        **Zara's challenge:** Build a codebook that translates human symbols into
+        numbers she can process.
+
+        She tries three approaches:
+
+        | Attempt | Strategy | Result |
+        |---------|----------|--------|
+        | 1st | Letter by letter | ✅ Works, but sentences become enormously long |
+        | 2nd | Word by word | ✅ Much shorter, but new words break everything |
+        | 3rd | Common patterns (BPE) | ✅ The sweet spot — what GPT actually uses! |
+
+        **🔗 Try it yourself** → Select *1️⃣ Tokenization* from the sidebar
+
+        ---
+
+        > 📖 *"Zara now has a codebook. She can turn any human text into numbers.
+        > But there's a problem — the number for 'Hello' and 'Goodbye' look almost
+        > the same, yet they mean opposite things. She needs a better way to
+        > capture what words actually MEAN..."*
+        """)
+
+    elif "Chapter 2" in chapter:
+        st.markdown("""
+        ## 📗 Chapter 2: The Map
+
+        > *Zara has been staring at her codebook for days. Token 42 ('cat') and
+        > Token 43 ('dog') are just one number apart, but 'cat' and 'kitten' —
+        > which are very similar — are hundreds apart. The numbers don't capture
+        > meaning at all!*
+        >
+        > *Then she has a brilliant idea: what if she creates a MAP of meaning?*
+
+        **Zara's insight:** Words that appear in similar contexts probably mean
+        similar things. "The **cat** sat on the mat" and "The **dog** sat on the rug"
+        — cat and dog appear in the same position!
+
+        She builds a **co-occurrence map** that places similar words near each other
+        in a mathematical space. Now "king" and "queen" are neighbors, "happy" and
+        "joyful" sit side by side, and she can even do math on meaning:
+
+        `king - man + woman = queen` 👑
+
+        **🔗 Try it yourself** → Select *2️⃣ Embeddings* from the sidebar
+
+        ---
+
+        > 📖 *"Zara's meaning map is incredible. But she's creating millions of
+        > these vectors — one for every piece of text she's collected. She needs
+        > somewhere to store them all, and a way to find things quickly..."*
+        """)
+
+    elif "Chapter 3" in chapter:
+        st.markdown("""
+        ## 📘 Chapter 3: The Library
+
+        > *Zara has a problem every librarian would recognize. She's built millions
+        > of meaning vectors, but finding the right one means comparing against
+        > EVERY vector. With millions of documents, this takes forever!*
+        >
+        > *She needs a magic library where books organize themselves by meaning.*
+
+        **Zara's solution:** Instead of checking every document, create "neighborhoods"
+        where similar documents live together. When searching, only check the
+        relevant neighborhood — like how a real library groups science books together.
+
+        | Search Type | How It Works | Speed |
+        |------------|-------------|-------|
+        | Brute force | Compare against everything | 🐌 Slow |
+        | LSH indexing | Check only nearby neighborhoods | 🚀 Fast |
+        | Semantic | Find by meaning, not keywords | 🎯 Precise |
+
+        **🔗 Try it yourself** → Select *3️⃣ Vector Databases* from the sidebar
+
+        ---
+
+        > 📖 *"Zara can now store and search millions of documents instantly.
+        > But she faces a new challenge. When she reads 'The bank was near the
+        > river bank,' she gets confused. Which 'bank' is which? She needs to
+        > learn what humans do effortlessly — pay attention to context..."*
+        """)
+
+    elif "Chapter 4" in chapter:
+        st.markdown("""
+        ## 📙 Chapter 4: The Breakthrough
+
+        > *This is the pivotal moment. Zara reads: "The cat sat on the mat because
+        > IT was tired." What does "it" refer to? The cat? The mat? Humans solve
+        > this instantly — they pay ATTENTION. But how do you teach a machine to focus?*
+
+        **Zara's invention:** A spotlight system. Every word shines a spotlight on
+        every other word, asking: *"Are you relevant to me?"*
+
+        Think of it like a cocktail party — dozens of conversations happening at once,
+        but you focus on the one person talking to you. If someone says your name
+        across the room, your attention snaps there instantly.
+
+        She implements **Query, Key, Value**:
+        - **Query:** "What am I looking for?"
+        - **Key:** "What do I have to offer?"
+        - **Value:** "Here's my actual content"
+
+        > 🎯 **This is the breakthrough that changed AI forever.**
+        > The 2017 paper "Attention Is All You Need" used exactly this mechanism
+        > and launched the transformer revolution.
+
+        **🔗 Try it yourself** → Select *4️⃣ Attention* from the sidebar
+
+        ---
+
+        > 📖 *"Zara has cracked the attention puzzle. But one attention layer isn't
+        > enough — it's like having one good pair of glasses. She needs bifocals,
+        > a microscope AND a telescope. She needs to stack these layers, add
+        > processing power, and build... a complete brain."*
+        """)
+
+    elif "Chapter 5" in chapter:
+        st.markdown("""
+        ## 📓 Chapter 5: The Brain
+
+        > *Zara stands at her workbench, surrounded by all the components she's
+        > built: a codebook, a meaning map, attention spotlights. Now she assembles
+        > them into a working brain. She calls it... a Transformer.*
+
+        **The architecture:**
+        ```
+        Input → Embedding → [Attention → Process → Normalize] × N → Output
+        ```
+
+        Each layer adds deeper understanding — like a team of specialists reading
+        the same document. One checks grammar, another finds relationships, a third
+        interprets meaning, and the last drafts a response.
+
+        **⚠️ The humbling truth:** Zara's transformer works! It processes text and
+        generates output. But... the output is gibberish. What went wrong?
+
+        *Nothing.* The architecture is correct — identical to GPT-4 and Claude.
+        But Zara's brain has thousands of parameters. GPT-4 has over a **trillion**.
+        The lesson: **the magic isn't the architecture — it's the scale.**
+
+        **🔗 Try it yourself** → Select *5️⃣ Transformers* from the sidebar
+
+        ---
+
+        > 📖 *"Zara's brain works but sometimes makes things up — it 'hallucinates.'
+        > She needs a way to look things up before answering, to ground her
+        > responses in real documents..."*
+        """)
+
+    elif "Chapter 6" in chapter:
+        st.markdown("""
+        ## 📔 Chapter 6: The Connection
+
+        > *Zara has built an incredible system. But when someone asks a question,
+        > she sometimes makes things up — confident but wrong. Sound familiar?
+        > This is the same problem plaguing every large language model.*
+        >
+        > *Zara's solution: don't just rely on what you've learned — LOOK IT UP first.*
+
+        **RAG = Retrieval Augmented Generation.** The full pipeline:
+
+        1. 🔤 **Tokenize** the question (Chapter 1)
+        2. 🗺️ **Embed** it as a meaning vector (Chapter 2)
+        3. 📚 **Search** for relevant documents (Chapter 3)
+        4. 👀 **Attend** to the important parts (Chapter 4)
+        5. 🧠 **Transform** into a coherent answer (Chapter 5)
+        6. 📎 **Cite** sources for verification (Chapter 6)
+
+        **🔗 Try it yourself** → Select *6️⃣ RAG* from the sidebar
+
+        ---
+
+        ### 🎬 The Finale
+
+        > *Zara started unable to read a single word of human text. Now she has
+        > built every component of a modern AI language system — from scratch.*
+        >
+        > *And here's the remarkable thing: **you have too.** Everything Zara built,
+        > you built alongside her. You now understand, at a fundamental level,
+        > how ChatGPT, Claude, and Gemini actually work.*
+        >
+        > ***It's not magic. It's math, patterns, and brilliant engineering.
+        > And now you can see it.*** 🎉
+        """)
+
+    # Story arc visualization
+    st.markdown("---")
+    st.markdown("### 🎭 The Emotional Arc")
+    st.markdown("""
+    <div class='pipeline-flow'>
+        <div class='pipeline-step'>😟 Lost</div>
+        <span class='pipeline-arrow'>→</span>
+        <div class='pipeline-step'>🤔 Curious</div>
+        <span class='pipeline-arrow'>→</span>
+        <div class='pipeline-step'>😮 Wonder</div>
+        <span class='pipeline-arrow'>→</span>
+        <div class='pipeline-step'>💪 Confident</div>
+        <span class='pipeline-arrow'>→</span>
+        <div class='pipeline-step'>💡 Aha!</div>
+        <span class='pipeline-arrow'>→</span>
+        <div class='pipeline-step'>🎉 Triumph</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+# ============================================================================
 # WORKSHOP 1: TOKENIZATION
 # ============================================================================
 elif workshop_choice == "1️⃣ Tokenization":
     st.markdown("## 🔤 Workshop 1: Tokenization")
-    st.markdown("### *Teaching the alien to read symbols*")
+    st.markdown("### *📕 Chapter 1 of Zara's Journey: The Codebook*")
     
     st.markdown("""
+    > 🛸 *Zara can't read human text. She needs a codebook to turn symbols into numbers.*
+    
     **The Problem:** Computers don't understand text—only numbers!
     
     **The Solution:** Break text into tokens and assign each a number.
@@ -342,9 +606,12 @@ elif workshop_choice == "1️⃣ Tokenization":
 # ============================================================================
 elif workshop_choice == "2️⃣ Embeddings":
     st.markdown("## 🗺️ Workshop 2: Embeddings")
-    st.markdown("### *Creating a map of meaning*")
+    st.markdown("### *📗 Chapter 2 of Zara's Journey: The Map*")
     
     st.markdown("""
+    > 🛸 *Zara can read symbols now, but Token 42 ('cat') and Token 43 ('dog') look
+    > the same to her. She needs a map where similar meanings live nearby.*
+    
     **The Problem:** Token IDs don't capture meaning. "Cat" (ID 42) and "Dog" (ID 73) 
     look equally different from "Kitten" (ID 156), even though cat and kitten are related!
     
@@ -396,9 +663,12 @@ elif workshop_choice == "2️⃣ Embeddings":
 # ============================================================================
 elif workshop_choice == "3️⃣ Vector Databases":
     st.markdown("## 📚 Workshop 3: Vector Databases")
-    st.markdown("### *The alien's magic library*")
+    st.markdown("### *📘 Chapter 3 of Zara's Journey: The Library*")
     
     st.markdown("""
+    > 🛸 *Zara has millions of meaning vectors now. She needs a magic library
+    > where she can find the right one in seconds, not hours.*
+    
     **The Problem:** With millions of embeddings, how do we find similar ones fast?
     
     **The Solution:** Vector databases with smart indexing (like a library's catalog system).
@@ -466,9 +736,12 @@ elif workshop_choice == "3️⃣ Vector Databases":
 # ============================================================================
 elif workshop_choice == "4️⃣ Attention":
     st.markdown("## 👀 Workshop 4: Attention")
-    st.markdown("### *The alien's spotlight of focus*")
+    st.markdown("### *📙 Chapter 4 of Zara's Journey: The Breakthrough*")
     
     st.markdown("""
+    > 🛸 *"The bank was near the river bank" — which bank is which? Zara invents
+    > a spotlight system where every word asks: "Who is relevant to me?"*
+    
     **The Problem:** In "The cat sat on the mat because it was tired", what does "it" refer to?
     
     **The Solution:** Attention lets each word look at all other words and decide what's relevant.
@@ -523,9 +796,12 @@ elif workshop_choice == "4️⃣ Attention":
 # ============================================================================
 elif workshop_choice == "5️⃣ Transformers":
     st.markdown("## 🧠 Workshop 5: Transformers")
-    st.markdown("### *Building the alien's complete brain*")
+    st.markdown("### *📓 Chapter 5 of Zara's Journey: The Brain*")
     
     st.markdown("""
+    > 🛸 *Zara has all the pieces — a codebook, a meaning map, attention spotlights.
+    > Now she assembles them into a working brain. She calls it... a Transformer.*
+    
     **The Architecture:** Transformers combine:
     - **Embeddings** (Workshop 2) - Convert tokens to vectors
     - **Attention** (Workshop 4) - Let tokens interact
@@ -596,9 +872,12 @@ elif workshop_choice == "5️⃣ Transformers":
 # ============================================================================
 elif workshop_choice == "6️⃣ RAG":
     st.markdown("## 🔍 Workshop 6: RAG")
-    st.markdown("### *Give the alien a search engine!*")
+    st.markdown("### *📔 Chapter 6 of Zara's Journey: The Connection*")
     
     st.markdown("""
+    > 🛸 *Zara's brain works, but sometimes makes things up. Her solution:
+    > look things up BEFORE answering — don't hallucinate, verify!*
+    
     **The Problem:** LLMs can hallucinate, have knowledge cutoffs, and can't cite sources.
     
     **The Solution:** RAG = Retrieval + Augmented + Generation
@@ -649,11 +928,14 @@ elif workshop_choice == "6️⃣ RAG":
 # ============================================================================
 elif workshop_choice == "🔗 End-to-End Pipeline":
     st.markdown("## 🔗 End-to-End Pipeline")
-    st.markdown("### *Watch all 6 workshops work together!*")
+    st.markdown("### *🛸 Zara's complete system — all 6 chapters working together!*")
     
     st.markdown("""
-    This demo traces a query through the **complete GenAI pipeline**, 
-    showing how each workshop's concept contributes to the final answer.
+    This demo traces a query through Zara's **complete GenAI pipeline**,
+    showing how each chapter's invention contributes to the final answer.
+    
+    > *Zara started unable to read a single word. Now watch every component
+    > she built work together as one system.*
     """)
     
     # Input
@@ -667,7 +949,7 @@ elif workshop_choice == "🔗 End-to-End Pipeline":
         
         # Step 1: Tokenization
         st.markdown("---")
-        st.markdown("### Step 1: 🔤 Tokenization")
+        st.markdown("### 📕 Step 1: The Codebook (Tokenization)")
         
         tokenizer = SimpleTokenizer(strategy='word')
         corpus = ["machine learning artificial intelligence neural networks"]
@@ -680,7 +962,7 @@ elif workshop_choice == "🔗 End-to-End Pipeline":
         
         # Step 2: Embeddings
         st.markdown("---")
-        st.markdown("### Step 2: 🗺️ Embeddings")
+        st.markdown("### 📗 Step 2: The Map (Embeddings)")
         
         embed_dim = 64
         # Note: We don't actually use the embedder here - just showing the concept
@@ -696,7 +978,7 @@ elif workshop_choice == "🔗 End-to-End Pipeline":
         
         # Step 3: Vector Search
         st.markdown("---")
-        st.markdown("### Step 3: 📚 Vector Database Search")
+        st.markdown("### 📘 Step 3: The Library (Vector Search)")
         
         rag = RAGPipeline(embed_dim=64, top_k=3)
         texts = [doc[0] for doc in SAMPLE_KNOWLEDGE]
@@ -712,7 +994,7 @@ elif workshop_choice == "🔗 End-to-End Pipeline":
         
         # Step 4: Attention (conceptual)
         st.markdown("---")
-        st.markdown("### Step 4: 👀 Attention")
+        st.markdown("### 📙 Step 4: The Spotlight (Attention)")
         
         st.markdown("""
         The transformer uses attention to:
@@ -724,7 +1006,7 @@ elif workshop_choice == "🔗 End-to-End Pipeline":
         
         # Step 5: Transformer Processing
         st.markdown("---")
-        st.markdown("### Step 5: 🧠 Transformer")
+        st.markdown("### 📓 Step 5: The Brain (Transformer)")
         
         st.markdown("""
         The transformer processes the augmented prompt through:
@@ -737,7 +1019,7 @@ elif workshop_choice == "🔗 End-to-End Pipeline":
         
         # Step 6: RAG Output
         st.markdown("---")
-        st.markdown("### Step 6: 🔍 RAG Generation")
+        st.markdown("### 📔 Step 6: The Search Engine (RAG)")
         
         result = rag.query(user_input)
         
@@ -754,21 +1036,27 @@ elif workshop_choice == "🔗 End-to-End Pipeline":
         
         # Summary
         st.markdown("---")
-        st.markdown("### 🎉 Pipeline Complete!")
+        st.markdown("### 🎉 Zara's Mission Complete!")
+        
+        st.markdown("""
+        > *Every component you just saw was built from scratch across 6 workshops.
+        > The same architecture powers ChatGPT, Claude, and Gemini — just at a
+        > much larger scale. Now you can see how it all fits together.*
+        """)
         
         st.markdown("""
         <div class='pipeline-flow'>
             <div class='pipeline-step'>📝 Input</div>
             <span class='pipeline-arrow'>→</span>
-            <div class='pipeline-step'>🔤 Tokenize</div>
+            <div class='pipeline-step'>📕 Codebook</div>
             <span class='pipeline-arrow'>→</span>
-            <div class='pipeline-step'>🗺️ Embed</div>
+            <div class='pipeline-step'>📗 Map</div>
             <span class='pipeline-arrow'>→</span>
-            <div class='pipeline-step'>📚 Search</div>
+            <div class='pipeline-step'>📘 Library</div>
             <span class='pipeline-arrow'>→</span>
-            <div class='pipeline-step'>👀 Attend</div>
+            <div class='pipeline-step'>📙 Spotlight</div>
             <span class='pipeline-arrow'>→</span>
-            <div class='pipeline-step'>🧠 Transform</div>
+            <div class='pipeline-step'>📓 Brain</div>
             <span class='pipeline-arrow'>→</span>
             <div class='pipeline-step'>💬 Answer</div>
         </div>

@@ -317,6 +317,45 @@ Show text flowing through: **Tokenization → Embedding → Vector Search → At
 
 ---
 
+## 🎭 Storytelling Tips
+
+### Using Zara's Journey
+
+The workshop series has a narrative protagonist — **Zara**, a Zorathian scientist who can't read human text. See `docs/STORY_GUIDE.md` for the complete narrative framework.
+
+### Why Story Matters
+
+- People retain **information embedded in stories far better** than isolated facts
+- A character creates **emotional investment** in the technical content
+- Narrative transitions make workshop connections **feel natural**
+- Struggling alongside Zara **normalizes confusion** — even a genius alien finds this hard
+
+### How to Use the Story
+
+1. **Workshop 1 opening** (2 min): Introduce Zara — who she is, why she's here, what she can't do
+2. **Each section**: Frame the challenge as Zara's problem before showing the solution
+3. **Transitions**: Use the scripts from the Story Guide to bridge workshops
+4. **Finale**: Read the closing passage — it ties everything back to the audience's own journey
+
+### Quick Transition Scripts
+
+| Between | Say This |
+|---------|----------|
+| 1 → 2 | *"Zara can read symbols now, but has no idea what they MEAN..."* |
+| 2 → 3 | *"Millions of meaning vectors — she needs somewhere to put them..."* |
+| 3 → 4 | *"She can find any document, but struggles with context..."* |
+| 4 → 5 | *"Attention works — now she needs to assemble a complete brain..."* |
+| 5 → 6 | *"The brain works, but makes things up. She needs a fact-checker..."* |
+
+### Tips for Natural Delivery
+
+- **Don't read scripts verbatim** — paraphrase in your own words
+- **Use Zara's name** when framing challenges: "So Zara's next problem is..."
+- **Let participants be Zara** — "If YOU were Zara, what would you try?"
+- **Celebrate progress** — "Look what Zara (and you!) just built!"
+
+---
+
 ## 🎓 Facilitation Tips
 
 ### Pacing
@@ -504,6 +543,7 @@ workshops/
 | Purpose | File |
 |---------|------|
 | This guide | `docs/TEACHER_GUIDE.md` |
+| **Story guide** | **`docs/STORY_GUIDE.md`** |
 | User guide | `docs/USER_GUIDE.md` |
 | Workshop plan | `docs/workshop-plan.md` |
 | Style guide | `.github/copilot-instructions.md` |
