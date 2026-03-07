@@ -525,6 +525,36 @@ label {
     color: var(--text-primary);
 }
 
+/* ─── Presentation-Friendly Interactive States ─── */
+/* Larger, glowing focus indicators so back-row audience can see what's active */
+.select-input:hover,
+.text-input:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+.select-input:focus,
+.text-input:focus {
+    box-shadow: 0 0 0 4px var(--accent-glow), 0 0 20px rgba(99, 102, 241, 0.15);
+}
+
+input[type="radio"]:focus-visible + span,
+input[type="radio"]:checked {
+    outline: 2px solid var(--accent-1);
+    outline-offset: 2px;
+}
+
+/* Shape overlay containers glow when hovered during presentation */
+.shape-overlay {
+    transition: box-shadow 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+    border: 1px solid var(--border-subtle);
+}
+
+.shape-overlay:hover {
+    box-shadow: 0 0 16px var(--accent-glow), 0 0 40px rgba(139, 92, 246, 0.08);
+    transform: scale(1.01);
+}
+
 /* ─── Metric Cards ─── */
 .metric-row {
     display: flex;

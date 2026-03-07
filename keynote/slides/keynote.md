@@ -43,8 +43,15 @@ That moment of opening — that flood of visual information — that's what toda
 ---
 
 <!-- _backgroundColor: #000000 -->
+<!-- _color: #60a5fa -->
 
-![bg contain](https://via.placeholder.com/1920x1080/000000/60a5fa?text=World+of+Pure+Sound)
+# A World of Pure Sound
+
+### 〰️ ))) ≋ ⚡ ))) 〰️
+
+<br>
+
+*No edges. No corners. No color. Just vibrations.*
 
 <!--
 SPEAKER NOTES:

@@ -1,24 +1,43 @@
 # 🛸 GenAI Self-Build: User Guide
 
-Welcome to the GenAI Self-Build Workshop Series! This guide will help you get the most out of the learning experience.
+Welcome aboard, explorer! This guide helps you navigate the GenAI Self-Build Workshop Series — from a zero-install browser experience to full Python deep dives — while following Zara’s alien journey from confusion to understanding.
 
 ---
 
 ## 📋 Table of Contents
 
-1. [Getting Started](#getting-started)
-2. [Workshop Overview](#workshop-overview)
-3. [Running the Demos](#running-the-demos)
-4. [Learning Path](#learning-path)
-5. [Tips for Success](#tips-for-success)
-6. [Troubleshooting](#troubleshooting)
-7. [Additional Resources](#additional-resources)
+1. Getting Started
+2. Workshop Overview
+3. Running the Demos
+4. Learning Path
+5. Tips for Success
+6. Troubleshooting
+7. Additional Resources
 
 ---
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### Start Here (Recommended): Interactive HTML Webpage
+
+The easiest way to begin is the interactive browser app:
+
+👉 **Just open `index.html` in your browser — that's it!**
+
+No Python install. No environment setup. No package troubleshooting.
+
+Inside the webpage, you can choose two learning styles:
+
+- **Text Path** — language-based examples and explanations
+- **Visual Path** — shape/layout-based intuition for the same core concepts
+
+Both paths follow Zara’s chapter-by-chapter story and teach the same six GenAI building blocks.
+
+### Optional Setup for Python Deep Dives
+
+If you want to run the workshop code, Streamlit demos, and tests locally, set up Python:
+
+#### Prerequisites
 
 Before starting, make sure you have:
 
@@ -27,15 +46,17 @@ Before starting, make sure you have:
 - **Command line familiarity** (navigating folders, running commands)
 - **No AI/ML experience required!**
 
-### Installation
+#### Installation
 
 1. **Clone or download the repository:**
+
    ```bash
    git clone https://github.com/yourusername/genai-self-build.git
    cd genai-self-build
    ```
 
 2. **Create a virtual environment (recommended):**
+
    ```bash
    # Windows
    python -m venv venv
@@ -47,11 +68,13 @@ Before starting, make sure you have:
    ```
 
 3. **Install dependencies:**
+
    ```bash
    pip install -r requirements.txt
    ```
 
 4. **Verify installation:**
+
    ```bash
    python -c "import numpy; import streamlit; print('Ready to go!')"
    ```
@@ -62,45 +85,49 @@ Before starting, make sure you have:
 
 ### The 6 Workshops
 
-| # | Workshop | What You'll Learn | Time |
-|---|----------|-------------------|------|
-| 1 | **Tokenization** | How text becomes numbers | 1 hour |
-| 2 | **Embeddings** | How meaning becomes vectors | 1 hour |
-| 3 | **Vector Databases** | How to search by meaning | 1 hour |
-| 4 | **Attention** | How models focus on what matters | 1 hour |
-| 5 | **Transformers** | How GPT-style models work | 1 hour |
-| 6 | **RAG** | How to ground AI in real data | 1 hour |
+|#|Workshop|What You'll Learn|Tests|
+|---|---|---|---|
+|1|**Tokenization**|How text becomes numbers|19|
+|2|**Embeddings**|How meaning becomes vectors|21|
+|3|**Vector Databases**|How to search by meaning|22|
+|4|**Attention**|How models focus on what matters|21|
+|5|**Transformers**|How GPT-style models work|25|
+|6|**RAG**|How to ground AI in real data|25|
+|✅|**Total**|**All workshop suites combined**|**133**|
 
 ### The Alien Analogy 🛸
 
 Throughout the series, we use a fun analogy: **an alien learning to understand human language**.
 
-| Workshop | Alien's Journey | Screenshot |
-|----------|-----------------|------------|
-| 1 | 🛸 Building a codebook to read symbols | ![](pictures/01-tokenization.png) |
-| 2 | 🗺️ Creating a map of where meanings live | ![](pictures/02-embeddings.png) |
-| 3 | 📚 Organizing a magic library | ![](pictures/03-vector-db.png) |
-| 4 | 👀 Learning what to focus on | ![](pictures/04-attention.png) |
-| 5 | 🧠 Building a complete brain | ![](pictures/05-transformers.png) |
-| 6 | 🔍 Getting a search engine | ![](pictures/06-rag.png) |
+|Workshop|Alien's Journey|Screenshot|
+|---|---|---|
+|1|🛸 Building a codebook to read symbols|![Tokenization screenshot](pictures/01-tokenization.png)|
+|2|🗺️ Creating a map of where meanings live|![Embeddings screenshot](pictures/02-embeddings.png)|
+|3|📚 Organizing a magic library|![Vector DB screenshot](pictures/03-vector-db.png)|
+|4|👀 Learning what to focus on|![Attention screenshot](pictures/04-attention.png)|
+|5|🧠 Building a complete brain|![Transformers screenshot](pictures/05-transformers.png)|
+|6|🔍 Getting a search engine|![RAG screenshot](pictures/06-rag.png)|
 
 ---
 
 ## 🎮 Running the Demos
 
-### Option 1: Unified Demo (Recommended for Overview)
+### Option A: Interactive HTML Webpage (Recommended)
 
-Run the combined demo that covers all workshops:
+This is the fastest and most learner-friendly path:
 
-```bash
-streamlit run app.py
-```
+👉 **Just open `index.html` in your browser — that's it!**
 
-Then open your browser to: **http://localhost:8501**
+What you get:
 
-### Option 2: Individual Workshop Demos
+- A **chapter-based journey** through Zara’s story
+- **Text** and **Visual** learning paths for each concept
+- Navigation across Home → Chapters 1-6 → Finale
+- Zero-install, instant exploration
 
-Each workshop has its own interactive demo:
+### Option B: Deep Dive with Python (Individual Workshops)
+
+Each workshop has its own Streamlit app, implementation, and test suite.
 
 ```bash
 # Workshop 1: Tokenization
@@ -128,14 +155,23 @@ cd workshops/06-rag
 streamlit run app.py
 ```
 
-### Option 3: Run the Core Code
-
-Each workshop's main implementation can be run directly:
+You can also run each workshop’s core implementation and tests directly:
 
 ```bash
 cd workshops/01-tokenization
-python tokenizer.py  # Runs built-in tests
+python tokenizer.py
+python test_tokenizer.py
 ```
+
+### Option C: Unified Streamlit Demo
+
+Run the combined root app that covers all six workshops in one place:
+
+```bash
+streamlit run app.py
+```
+
+Then open your browser to: **[http://localhost:8501](http://localhost:8501)**
 
 ---
 
@@ -145,34 +181,42 @@ python tokenizer.py  # Runs built-in tests
 
 **Follow the workshops in order** — each builds on the previous:
 
-```
+```text
 1. Tokenization  →  2. Embeddings  →  3. Vector DB
                                             ↓
 6. RAG  ←  5. Transformers  ←  4. Attention
 ```
 
-### For Each Workshop
+### Suggested Flow (Best Experience)
 
-1. **Read the README.md** in the workshop folder
-2. **Review the cheatsheet.md** for quick reference
+1. Start in the HTML app (`index.html`)
+2. Use **chapter-by-chapter navigation** to follow Zara’s full arc
+3. Toggle between **Text** and **Visual** paths to reinforce understanding
+4. Move to **Option B** for code-level exploration and tests
+5. Use **Option C** when you want one unified Streamlit walkthrough
+
+### For Each Workshop (Python Deep Dive)
+
+1. **Read the `README.md`** in the workshop folder
+2. **Review the `cheatsheet.md`** for quick reference
 3. **Run the interactive demo** (`streamlit run app.py`)
 4. **Explore the code** in the main `.py` file
 5. **Run the tests** to verify understanding
-6. **Check qna.md** for common questions
+6. **Check `qna.md`** for common questions
 
 ### Workshop Materials
 
 Each workshop folder contains:
 
-| File | Purpose |
-|------|---------|
-| `*.py` | Core implementation with detailed comments |
-| `app.py` | Interactive Streamlit demo |
-| `test_*.py` | Test suite to verify functionality |
-| `README.md` | Workshop overview and concepts |
-| `cheatsheet.md` | 1-2 page quick reference |
-| `qna.md` | Anticipated questions & answers |
-| `slides/` | Presentation materials |
+|File|Purpose|
+|---|---|
+|`*.py`|Core implementation with detailed comments|
+|`app.py`|Interactive Streamlit demo|
+|`test_*.py`|Test suite to verify functionality|
+|`README.md`|Workshop overview and concepts|
+|`cheatsheet.md`|1-2 page quick reference|
+|`qna.md`|Anticipated questions & answers|
+|`slides/`|Presentation materials|
 
 ---
 
@@ -180,14 +224,16 @@ Each workshop folder contains:
 
 ### Before Each Workshop
 
+- [ ] Decide your mode: **HTML quick learning** or **Python deep dive**
 - [ ] Review the workshop README
 - [ ] Glance at the cheatsheet
-- [ ] Have the code open in your editor
+- [ ] Have the code open in your editor (if doing Option B/C)
 
 ### During the Workshop
 
 - **Don't just copy-paste** — type the code yourself
 - **Experiment** — change values and see what happens
+- **Switch Text/Visual modes** in the HTML app to build intuition from both angles
 - **Ask questions** — there are no dumb questions
 - **Take notes** — jot down "aha!" moments
 
@@ -204,14 +250,18 @@ The code is written to be **educational, not production-ready**:
 
 - **Verbose comments** explain the "why"
 - **Simple implementations** over optimized ones
-- **NumPy only** — no hidden magic from ML libraries
+- **NumPy + Streamlit focus** — no hidden magic from large frameworks
 - **Small scale** — same concepts, manageable size
 
 ---
 
 ## 🔧 Troubleshooting
 
-### Common Issues
+### First, the easy win ✅
+
+If you use the HTML app (`index.html`), there is **no install required** — so there is usually **nothing to troubleshoot**.
+
+### Common Python/Streamlit Issues (Option B/C)
 
 #### "ModuleNotFoundError: No module named 'streamlit'"
 
@@ -251,14 +301,22 @@ python workshops/01-tokenization/tokenizer.py  # ❌ May have import issues
 
 ### Getting Help
 
-1. **Check the qna.md** file in each workshop
+1. **Check the `qna.md`** file in each workshop
 2. **Review the error message** carefully
 3. **Google the error** — someone else has probably hit it
-4. **Contact:** michael.kennedy@analog.com
+4. **Contact:** [michael.kennedy@analog.com](mailto:michael.kennedy@analog.com)
 
 ---
 
 ## 📖 Additional Resources
+
+### For Presenters 🎤
+
+If you're presenting this material live, use the keynote package:
+
+- `keynote/app.py` — presenter-focused Streamlit demo
+- `keynote/SCRIPT.md` — full talk track/script
+- `keynote/html_app/` — browser-friendly keynote assets
 
 ### Recommended Reading
 
@@ -287,7 +345,7 @@ After completing all 6 workshops:
 
 ---
 
-## 🎉 Congratulations!
+## 🎉 Congratulations
 
 By completing this series, you'll understand:
 
@@ -302,4 +360,4 @@ By completing this series, you'll understand:
 
 ---
 
-*Questions? Contact: michael.kennedy@analog.com*
+*Questions? Contact: [michael.kennedy@analog.com](mailto:michael.kennedy@analog.com)*

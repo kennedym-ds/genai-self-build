@@ -70,7 +70,9 @@ const TokenizationPage = {
             `;
         }
         
-        content += `</div>`;
+        content += `
+            ${chapterNav("tokenization")}
+        </div>`;
         return content;
     },
 
@@ -127,6 +129,7 @@ const TokenizationPage = {
         
         const tokens = tokenizer.encode(text);
         const decoded = tokenizer.decode(tokens);
+        const safeDecoded = escapeHtml(decoded);
         const compression = Math.max(tokens.length, 1);
         const ratio = (text.length / compression).toFixed(1);
 
@@ -153,7 +156,7 @@ const TokenizationPage = {
             
             <div class="output-box">
                 <strong>Decoded:</strong><br>
-                <code>${decoded}</code>
+                <code>${safeDecoded}</code>
             </div>
         `;
 
@@ -163,7 +166,7 @@ const TokenizationPage = {
             for(let i=0; i < Math.min(words.length, 8); i++) {
                 html += `
                     <div style="text-align:center; padding:15px; background:var(--gradient-primary); border-radius:8px; box-shadow:var(--shadow-soft);">
-                        <div style="font-size:1.1rem; font-weight:bold;">${words[i]}</div>
+                        <div style="font-size:1.1rem; font-weight:bold;">${escapeHtml(words[i])}</div>
                         <div style="font-size:0.8rem; opacity:0.9;">ID: ${tokens[i]}</div>
                     </div>
                 `;
@@ -180,7 +183,7 @@ const TokenizationPage = {
 
         // Render Scene HTML
         const sceneContainer = document.getElementById("tok-visual-scene");
-        sceneContainer.innerHTML = this.renderSceneHtml(scene);
+        sceneContainer.innerHTML = TextUtils.renderSceneHtml(scene);
 
         // Run Tokenizer
         const tok = AppState.engines.tokenizer;
@@ -201,28 +204,5 @@ const TokenizationPage = {
         ).join("");
         
         boxesContainer.innerHTML = boxesHtml;
-    },
-
-    // Helper replicated from app.py
-    renderSceneHtml(scene, scale = 30, h = 300) {
-        let html = `<div class="shape-overlay" style="height:${h}px; position:relative; background:#0f172a; border-radius:8px; overflow:hidden;">`;
-        for (const s of (scene.shapes || [])) {
-            const colorHex = LAYER_COLORS[s.color] || "#888888";
-            const left = s.x * scale;
-            const top = s.y * scale;
-            const w = s.w * scale;
-            const h_s = s.h * scale;
-            html += `
-                <div style="position:absolute; left:${left}px; top:${top}px; 
-                            width:${w}px; height:${h_s}px; background:${colorHex}80; 
-                            border:2px solid ${colorHex}; border-radius:4px; 
-                            display:flex; align-items:center; justify-content:center; 
-                            font-size:10px; color:white; text-shadow:1px 1px 2px #000;">
-                    ${s.label}
-                </div>
-            `;
-        }
-        html += `</div>`;
-        return html;
     }
 };

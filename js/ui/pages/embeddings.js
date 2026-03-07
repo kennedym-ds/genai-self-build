@@ -48,8 +48,10 @@ const EmbeddingsPage = {
             
             content += `
                 <div class="alert alert-info">
+                    <p><strong>> 🛸 Zara can identify shape parts now, but Part-7 ("curve") and Part-3 ("sharp_corner") look equally random. She needs a map where similar shapes live nearby.</strong></p>
                     <p><strong>The Problem:</strong> In shape world, a gentle curve and a sharp corner look completely unrelated if we only look at their independent IDs.</p>
                     <p><strong>The Solution:</strong> Map shapes to points on a 2D map so that similar shapes cluster together. The direction and distance between shapes gives them meaning!</p>
+                    <p style="margin-top:8px; color: var(--accent-3);"><strong>🔌 Layout analogy:</strong> Proximity in embedding space is like matched transistor placement — you place a differential pair close together to share a thermal gradient. Similar layouts get similar vectors. Try comparing <em>diff_pair</em> and <em>current_mirror</em>!</p>
                 </div>
                 
                 <div style="margin-bottom: 20px;">
@@ -66,7 +68,9 @@ const EmbeddingsPage = {
             `;
         }
         
-        content += `</div>`;
+        content += `
+            ${chapterNav("embeddings")}
+        </div>`;
         return content;
     },
 
@@ -106,6 +110,8 @@ const EmbeddingsPage = {
         const embedder = new TextEmbedding(dimensions);
         const emb1 = embedder.getEmbedding(word1);
         const emb2 = embedder.getEmbedding(word2);
+        const safeWord1 = escapeHtml(word1);
+        const safeWord2 = escapeHtml(word2);
         
         const sim = embedder.cosineSimilarity(emb1, emb2);
 
@@ -119,11 +125,11 @@ const EmbeddingsPage = {
             
             <div class="card-grid">
                 <div class="output-box">
-                    <strong>${word1}</strong> embedding (first 8 dims):<br>
+                    <strong>${safeWord1}</strong> embedding (first 8 dims):<br>
                     <code>[${emb1.slice(0, 8).map(v => v.toFixed(3)).join(", ")}...]</code>
                 </div>
                 <div class="output-box">
-                    <strong>${word2}</strong> embedding (first 8 dims):<br>
+                    <strong>${safeWord2}</strong> embedding (first 8 dims):<br>
                     <code>[${emb2.slice(0, 8).map(v => v.toFixed(3)).join(", ")}...]</code>
                 </div>
             </div>
@@ -138,7 +144,7 @@ const EmbeddingsPage = {
 
         // Render input scene
         const sceneContainer = document.getElementById("emb-visual-scene");
-        sceneContainer.innerHTML = TokenizationPage.renderSceneHtml(scene, 30, 250);
+        sceneContainer.innerHTML = TextUtils.renderSceneHtml(scene, 30, 250);
 
         // Get embedding
         const embEngine = AppState.engines.embedding;
@@ -150,14 +156,7 @@ const EmbeddingsPage = {
             const nName = embEngine.scene_names[i];
             const v = embEngine.embeddings[i];
             if (nName !== sceneName) {
-                // Cosine sim function from python logic mapped to JS array math
-                let dot = 0, n1 = 0, n2 = 0;
-                for(let j=0; j<vec.length; j++) {
-                    dot += vec[j] * v[j];
-                    n1 += vec[j]*vec[j];
-                    n2 += v[j]*v[j];
-                }
-                const cosSim = dot / (Math.sqrt(n1) * Math.sqrt(n2));
+                const cosSim = TextUtils.cosSim(vec, v);
                 dists.push({ name: nName, sim: cosSim });
             }
         }

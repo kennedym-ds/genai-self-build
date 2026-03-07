@@ -67,7 +67,9 @@ const RAGPage = {
             `;
         }
 
-        content += `</div>`;
+        content += `
+            ${chapterNav("rag")}
+        </div>`;
         return content;
     },
 
@@ -83,46 +85,15 @@ const RAGPage = {
         }
     },
 
-    _hashStr(str) {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) hash = ((hash << 5) - hash) + str.charCodeAt(i);
-        return Math.abs(hash);
-    },
-
-    _makeVector(text, dim = 64) {
-        let seed = this._hashStr(text.toLowerCase());
-        const vec = [];
-        let sumSq = 0;
-        let x = Math.sin(seed) * 10000;
-        for (let d = 0; d < dim; d++) {
-            x = Math.sin(x) * 10000;
-            const val = ((x - Math.floor(x)) * 2) - 1;
-            vec.push(val);
-            sumSq += val * val;
-        }
-        const mag = Math.sqrt(sumSq);
-        return vec.map(v => v / mag);
-    },
-
-    _cosSim(a, b) {
-        let dot = 0, na = 0, nb = 0;
-        for (let i = 0; i < a.length; i++) {
-            dot += a[i] * b[i];
-            na += a[i] * a[i];
-            nb += b[i] * b[i];
-        }
-        return dot / (Math.sqrt(na) * Math.sqrt(nb));
-    },
-
     runTextRAG() {
         const query = document.getElementById("rag-query").value;
         if (!query) return;
 
-        const qVec = this._makeVector(query);
+        const qVec = TextUtils.makeVector(query.toLowerCase());
 
         const scored = this.textKnowledgeBase.map(([text, source]) => {
-            const docVec = this._makeVector(text);
-            return { text, source, score: this._cosSim(qVec, docVec) };
+            const docVec = TextUtils.makeVector(text.toLowerCase());
+            return { text, source, score: TextUtils.cosSim(qVec, docVec) };
         });
 
         scored.sort((a, b) => b.score - a.score);
@@ -161,7 +132,7 @@ const RAGPage = {
         if (!scene || !AppState.engines.embedding || !AppState.engines.db) return;
 
         // Render query scene
-        document.getElementById("rag-query-scene").innerHTML = TokenizationPage.renderSceneHtml(scene, 30, 200);
+        document.getElementById("rag-query-scene").innerHTML = TextUtils.renderSceneHtml(scene, 30, 200);
 
         // Step 1: Embed & Retrieve
         const qEmb = AppState.engines.embedding.get_embedding(scene);
@@ -186,7 +157,7 @@ const RAGPage = {
                 <div style="text-align:center;">
                     <strong>${rName}</strong><br>
                     <span style="color:var(--accent-1); font-size:0.85rem;">Sim: ${rScore.toFixed(2)}</span>
-                    ${TokenizationPage.renderSceneHtml(rScene, 15, 120)}
+                    ${TextUtils.renderSceneHtml(rScene, 15, 120)}
                 </div>
             `;
         });

@@ -1,0 +1,6 @@
+numpy>=1.21.0
+streamlit>=1.28.0
+
+# Optional: for production vector database comparison
+# pip install qdrant-client
+# qdrant-client>=1.7.0

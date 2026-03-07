@@ -66,9 +66,13 @@ See **[📖 Story Guide](docs/STORY_GUIDE.md)** for the complete narrative with 
 
 </details>
 
-## �🚀 Quick Start
+## 🚀 Quick Start
 
-### Setup
+### Option A: Interactive Webpage (Zero Install)
+
+Open `index.html` in any modern browser — no server, no dependencies. Includes a Text/Visual dual learning path covering all 6 concepts.
+
+### Option B: Python Workshops + Streamlit
 
 ```bash
 # Clone the repository
@@ -84,35 +88,44 @@ venv\Scripts\activate  # Windows
 pip install -r requirements.txt
 ```
 
-### Run the Unified Demo
+**Run the Unified Streamlit Demo:**
 
 ```bash
 streamlit run app.py
 ```
 
-This launches an interactive demo that covers all 6 workshops with an end-to-end pipeline visualization.
-
-### Run Individual Workshops
+**Run Individual Workshops:**
 
 ```bash
-# Run any workshop's interactive demo
 cd workshops/01-tokenization
-streamlit run app.py
+streamlit run app.py       # Interactive demo
+python test_tokenizer.py   # Run tests
+```
 
-# Run tests
-python test_tokenizer.py
+### Option C: Keynote Demo (Presenter Mode)
+
+```bash
+cd keynote
+pip install -r requirements.txt
+streamlit run app.py
 ```
 
 ## 📁 Project Structure
 
 ```
 genai-self-build/
-├── app.py                    # 🎮 Unified demo (all workshops)
-├── requirements.txt          # Dependencies
-├── README.md                 # This file
+├── index.html                # 🌐 Interactive webpage (Text + Visual paths)
+├── css/index.css             # Webpage styles
+├── js/                       # Webpage JavaScript
+│   ├── app.js                # SPA router & state
+│   ├── ml/                   # ML engines (tokenizer, embeddings, vector DB, attention)
+│   └── ui/                   # UI components & page renderers
 │
-├── workshops/
-│   ├── 01-tokenization/      # 🔤 Text to numbers
+├── app.py                    # 🎮 Unified Streamlit demo (all workshops)
+├── requirements.txt          # Python dependencies
+│
+├── workshops/                # 📚 Python workshop implementations
+│   ├── 01-tokenization/      # 🔤 Text to numbers (19 tests)
 │   │   ├── tokenizer.py      # Implementation
 │   │   ├── app.py            # Streamlit demo
 │   │   ├── test_tokenizer.py # Test suite
@@ -121,13 +134,26 @@ genai-self-build/
 │   │   ├── qna.md            # Q&A guide
 │   │   └── README.md         # Workshop docs
 │   │
-│   ├── 02-embeddings/        # 🗺️ Meaning in vectors
-│   ├── 03-vector-databases/  # 📚 Semantic search
-│   ├── 04-attention/         # 👀 Focus mechanism
-│   ├── 05-transformers/      # 🧠 The architecture
-│   └── 06-rag/               # 🔍 Retrieval + generation
+│   ├── 02-embeddings/        # 🗺️ Meaning in vectors (21 tests)
+│   ├── 03-vector-databases/  # 📚 Semantic search (22 tests)
+│   ├── 04-attention/         # 👀 Focus mechanism (21 tests)
+│   ├── 05-transformers/      # 🧠 The architecture (25 tests)
+│   └── 06-rag/               # 🔍 Retrieval + generation (25 tests)
 │
-└── docs/
+├── keynote/                  # 🎤 Keynote presentation demo
+│   ├── app.py                # Streamlit keynote app
+│   ├── SCRIPT.md             # TED-style 20-min script
+│   ├── slides/               # Marp slide deck
+│   └── html_app/             # Static HTML version
+│
+├── shape_data.js             # Visual-path shape definitions
+├── shapes_core.js            # Visual-path ML engines
+│
+└── docs/                     # 📖 Documentation
+    ├── STORY_GUIDE.md        # Zara narrative framework
+    ├── USER_GUIDE.md         # Learner guide
+    ├── TEACHER_GUIDE.md      # Facilitator guide
+    ├── UNDER_THE_HOOD.md     # Deep-dive algorithm docs
     └── workshop-plan.md      # Curriculum guide
 ```
 
@@ -144,7 +170,14 @@ Each workshop folder contains:
 | `cheatsheet.md` | 1-2 page quick reference |
 | `qna.md` | Anticipated questions & answers |
 | `README.md` | Workshop documentation |
-| `requirements.txt` | Dependencies |
+
+**Total: 133 tests across 6 suites** (19 + 21 + 22 + 21 + 25 + 25)
+
+### Interactive Webpage
+
+The `index.html` single-page app provides a parallel learning experience with:
+- **Text Path** — Type natural language and see tokenization, embeddings, vector search, attention, and generation in real time
+- **Visual Path** — Learn the same concepts through Zara's shape-based world (circles, squares, triangles instead of words)
 
 ## 🔗 How It All Connects
 
@@ -222,6 +255,7 @@ python under_the_hood_demo.py  # Interactive demo with debug mode
 | **[Teacher Guide](docs/TEACHER_GUIDE.md)** | Facilitation tips, session timelines, handling Q&A |
 | **[Workshop Plan](docs/workshop-plan.md)** | Complete curriculum and session details |
 | **[🔍 Under the Hood](docs/UNDER_THE_HOOD.md)** | Deep dive into algorithms, comparisons to production systems |
+| **[🎤 Keynote Script](keynote/SCRIPT.md)** | TED-style 20-minute presentation script |
 
 ## 📖 Additional Resources
 

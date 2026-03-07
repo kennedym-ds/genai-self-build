@@ -42,6 +42,7 @@ const AttentionPage = {
                 <div class="alert alert-info">
                     <p><strong>The Problem:</strong> A red circle could be a traffic light, or it could be a clown's nose. Context determines meaning, even for shapes.</p>
                     <p><strong>The Solution:</strong> Zara sets up four "spotlights" (Attention Heads) to check relationships: Proximity, Color, Alignment, and Containment. Shapes "pay attention" to other shapes that are relevant to them.</p>
+                    <p style="margin-top:8px; color: var(--accent-3);"><strong>🔌 Layout analogy:</strong> Attention is like parasitic coupling — two parallel metal traces heavily "attend" to each other (high capacitance), while a shielded route far away has low attention. Try the <em>inverter_cell</em> or <em>diff_pair</em> scenes!</p>
                 </div>
                 
                 <div class="card-grid" style="grid-template-columns: 1fr 2fr;">
@@ -67,7 +68,9 @@ const AttentionPage = {
             `;
         }
         
-        content += `</div>`;
+        content += `
+            ${chapterNav("attention")}
+        </div>`;
         return content;
     },
 
@@ -99,6 +102,7 @@ const AttentionPage = {
         if (!window.TextAttention) return;
         
         const words = sentence.split(" ").filter(w => w.trim() !== "");
+        const safeWords = words.map(w => escapeHtml(w));
         const seqLen = words.length;
         
         if (seqLen === 0) {
@@ -133,14 +137,14 @@ const AttentionPage = {
         `;
         
         // Matrix headers
-        for (const w of words) {
+        for (const w of safeWords) {
             html += `<th style="padding:10px; border-bottom:1px solid #444;">${w}</th>`;
         }
         html += `</tr>`;
         
         // Matrix rows
         for (let i = 0; i < seqLen; i++) {
-            html += `<tr><td style="padding:10px; font-weight:bold; border-right:1px solid #444;">${words[i]}</td>`;
+            html += `<tr><td style="padding:10px; font-weight:bold; border-right:1px solid #444;">${safeWords[i]}</td>`;
             for (let j = 0; j < seqLen; j++) {
                 const val = weights[i][j];
                 const bgColors = [
@@ -170,7 +174,7 @@ const AttentionPage = {
         if (!scene || !AppState.engines.attention) return;
 
         // Render input
-        document.getElementById("att-visual-scene").innerHTML = TokenizationPage.renderSceneHtml(scene);
+        document.getElementById("att-visual-scene").innerHTML = TextUtils.renderSceneHtml(scene);
 
         // Compute attention matrix from shapes_core.js
         const result = AppState.engines.attention.compute_attention(scene);

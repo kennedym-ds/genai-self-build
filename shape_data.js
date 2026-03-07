@@ -222,6 +222,78 @@ const SAMPLE_SCENES = {
             makeShape("rectangle", 5, 5.5, 4, 2, "orange", "block_E"),
             makeShape("rectangle", 0.5, 8, 9, 0.5, "purple", "metal_bus_2"),
         ]
+    },
+    "inverter_cell": {
+        name: "Inverter Cell",
+        shapes: [
+            makeShape("rectangle", 0.5, 0, 4.5, 4, "green", "nwell"),
+            makeShape("rectangle", 0.5, 5, 4.5, 4, "teal", "psub"),
+            makeShape("rectangle", 1.5, 1, 2.5, 2, "blue", "pmos"),
+            makeShape("rectangle", 1.5, 6, 2.5, 2, "blue", "nmos"),
+            makeShape("rectangle", 2.5, 0, 0.5, 9, "red", "poly_gate"),
+            makeShape("line", 0.5, 4, 4, 0.4, "orange", "metal1_vdd"),
+            makeShape("line", 0.5, 4.6, 4, 0.4, "purple", "metal1_out"),
+            makeShape("circle", 2.6, 3.5, 0.6, 0.6, "yellow", "via_1"),
+            makeShape("circle", 2.6, 5.5, 0.6, 0.6, "yellow", "via_2"),
+        ]
+    },
+    "diff_pair": {
+        name: "Differential Pair",
+        shapes: [
+            makeShape("rectangle", 0, 1, 4, 3.5, "green", "nwell_L"),
+            makeShape("rectangle", 5, 1, 4, 3.5, "green", "nwell_R"),
+            makeShape("rectangle", 1, 2, 2, 2, "blue", "M1_L"),
+            makeShape("rectangle", 6, 2, 2, 2, "blue", "M1_R"),
+            makeShape("rectangle", 3.5, 5.5, 2, 2, "teal", "M_tail"),
+            makeShape("line", 0, 0.5, 9, 0.3, "orange", "vdd_rail"),
+            makeShape("line", 0, 8, 9, 0.3, "orange", "vss_rail"),
+            makeShape("line", 2, 4.5, 5, 0.3, "purple", "metal1_bus"),
+            makeShape("rectangle", 4, 4.5, 1, 1, "red", "tail_node"),
+        ]
+    },
+    "current_mirror": {
+        name: "Current Mirror",
+        shapes: [
+            makeShape("rectangle", 0.5, 2, 3.5, 3.5, "green", "nwell"),
+            makeShape("rectangle", 5, 2, 3.5, 3.5, "green", "nwell"),
+            makeShape("rectangle", 1, 3, 2.5, 2, "blue", "M_ref"),
+            makeShape("rectangle", 5.5, 3, 2.5, 2, "blue", "M_mirror"),
+            makeShape("line", 1, 1, 7.5, 0.3, "red", "gate_poly"),
+            makeShape("line", 0.5, 6, 8, 0.3, "orange", "vss_rail"),
+            makeShape("line", 0.5, 0.5, 8, 0.3, "orange", "vdd_rail"),
+            makeShape("circle", 2.2, 5, 0.5, 0.5, "yellow", "contact_L"),
+            makeShape("circle", 6.7, 5, 0.5, 0.5, "yellow", "contact_R"),
+        ]
+    },
+    "guard_ring": {
+        name: "Guard Ring",
+        shapes: [
+            makeShape("rectangle", 0.5, 0.5, 9, 8, "teal", "psub_ring_outer"),
+            makeShape("rectangle", 1.5, 1.5, 7, 6, "green", "nwell_inner"),
+            makeShape("rectangle", 3, 3, 4, 3, "blue", "active_device"),
+            makeShape("line", 0.5, 0.5, 9, 0.4, "orange", "guard_top"),
+            makeShape("line", 0.5, 8.1, 9, 0.4, "orange", "guard_bottom"),
+            makeShape("line", 0.5, 0.5, 0.4, 8, "orange", "guard_left"),
+            makeShape("line", 9.1, 0.5, 0.4, 8, "orange", "guard_right"),
+            makeShape("circle", 5, 4.5, 0.8, 0.8, "red", "substrate_tap"),
+        ]
+    },
+    "routing_channels": {
+        name: "Routing Channels",
+        shapes: [
+            makeShape("rectangle", 0, 0, 2, 2, "green", "cell_A"),
+            makeShape("rectangle", 7, 0, 2, 2, "green", "cell_B"),
+            makeShape("rectangle", 0, 7, 2, 2, "green", "cell_C"),
+            makeShape("rectangle", 7, 7, 2, 2, "green", "cell_D"),
+            makeShape("line", 2, 1, 5, 0.3, "blue", "metal1_h"),
+            makeShape("line", 2, 8, 5, 0.3, "blue", "metal1_h2"),
+            makeShape("line", 1, 2, 0.3, 5, "purple", "metal2_v1"),
+            makeShape("line", 8, 2, 0.3, 5, "purple", "metal2_v2"),
+            makeShape("circle", 2, 2, 0.5, 0.5, "yellow", "via_A"),
+            makeShape("circle", 7.5, 2, 0.5, 0.5, "yellow", "via_B"),
+            makeShape("circle", 2, 7.5, 0.5, 0.5, "yellow", "via_C"),
+            makeShape("circle", 7.5, 7.5, 0.5, 0.5, "yellow", "via_D"),
+        ]
     }
 };
 

@@ -265,6 +265,79 @@ SAMPLE_SCENES = {
             _make_shape("rectangle", 0.5, 8, 9, 0.5, "purple", "metal_bus_2"),
         ]
     },
+    # --- EDA / Analog Layout scenes ---
+    "inverter_cell": {
+        "name": "Inverter Cell",
+        "shapes": [
+            _make_shape("rectangle", 0.5, 0, 4.5, 4, "green", "nwell"),
+            _make_shape("rectangle", 0.5, 5, 4.5, 4, "teal", "psub"),
+            _make_shape("rectangle", 1.5, 1, 2.5, 2, "blue", "pmos"),
+            _make_shape("rectangle", 1.5, 6, 2.5, 2, "blue", "nmos"),
+            _make_shape("rectangle", 2.5, 0, 0.5, 9, "red", "poly_gate"),
+            _make_shape("line", 0.5, 4, 4, 0.4, "orange", "metal1_vdd"),
+            _make_shape("line", 0.5, 4.6, 4, 0.4, "purple", "metal1_out"),
+            _make_shape("circle", 2.6, 3.5, 0.6, 0.6, "yellow", "via_1"),
+            _make_shape("circle", 2.6, 5.5, 0.6, 0.6, "yellow", "via_2"),
+        ]
+    },
+    "diff_pair": {
+        "name": "Differential Pair",
+        "shapes": [
+            _make_shape("rectangle", 0, 1, 4, 3.5, "green", "nwell_L"),
+            _make_shape("rectangle", 5, 1, 4, 3.5, "green", "nwell_R"),
+            _make_shape("rectangle", 1, 2, 2, 2, "blue", "M1_L"),
+            _make_shape("rectangle", 6, 2, 2, 2, "blue", "M1_R"),
+            _make_shape("rectangle", 3.5, 5.5, 2, 2, "teal", "M_tail"),
+            _make_shape("line", 0, 0.5, 9, 0.3, "orange", "vdd_rail"),
+            _make_shape("line", 0, 8, 9, 0.3, "orange", "vss_rail"),
+            _make_shape("line", 2, 4.5, 5, 0.3, "purple", "metal1_bus"),
+            _make_shape("rectangle", 4, 4.5, 1, 1, "red", "tail_node"),
+        ]
+    },
+    "current_mirror": {
+        "name": "Current Mirror",
+        "shapes": [
+            _make_shape("rectangle", 0.5, 2, 3.5, 3.5, "green", "nwell"),
+            _make_shape("rectangle", 5, 2, 3.5, 3.5, "green", "nwell"),
+            _make_shape("rectangle", 1, 3, 2.5, 2, "blue", "M_ref"),
+            _make_shape("rectangle", 5.5, 3, 2.5, 2, "blue", "M_mirror"),
+            _make_shape("line", 1, 1, 7.5, 0.3, "red", "gate_poly"),
+            _make_shape("line", 0.5, 6, 8, 0.3, "orange", "vss_rail"),
+            _make_shape("line", 0.5, 0.5, 8, 0.3, "orange", "vdd_rail"),
+            _make_shape("circle", 2.2, 5, 0.5, 0.5, "yellow", "contact_L"),
+            _make_shape("circle", 6.7, 5, 0.5, 0.5, "yellow", "contact_R"),
+        ]
+    },
+    "guard_ring": {
+        "name": "Guard Ring",
+        "shapes": [
+            _make_shape("rectangle", 0.5, 0.5, 9, 8, "teal", "psub_ring_outer"),
+            _make_shape("rectangle", 1.5, 1.5, 7, 6, "green", "nwell_inner"),
+            _make_shape("rectangle", 3, 3, 4, 3, "blue", "active_device"),
+            _make_shape("line", 0.5, 0.5, 9, 0.4, "orange", "guard_top"),
+            _make_shape("line", 0.5, 8.1, 9, 0.4, "orange", "guard_bottom"),
+            _make_shape("line", 0.5, 0.5, 0.4, 8, "orange", "guard_left"),
+            _make_shape("line", 9.1, 0.5, 0.4, 8, "orange", "guard_right"),
+            _make_shape("circle", 5, 4.5, 0.8, 0.8, "red", "substrate_tap"),
+        ]
+    },
+    "routing_channels": {
+        "name": "Routing Channels",
+        "shapes": [
+            _make_shape("rectangle", 0, 0, 2, 2, "green", "cell_A"),
+            _make_shape("rectangle", 7, 0, 2, 2, "green", "cell_B"),
+            _make_shape("rectangle", 0, 7, 2, 2, "green", "cell_C"),
+            _make_shape("rectangle", 7, 7, 2, 2, "green", "cell_D"),
+            _make_shape("line", 2, 1, 5, 0.3, "blue", "metal1_h"),
+            _make_shape("line", 2, 8, 5, 0.3, "blue", "metal1_h2"),
+            _make_shape("line", 1, 2, 0.3, 5, "purple", "metal2_v1"),
+            _make_shape("line", 8, 2, 0.3, 5, "purple", "metal2_v2"),
+            _make_shape("circle", 2, 2, 0.5, 0.5, "yellow", "via_A"),
+            _make_shape("circle", 7.5, 2, 0.5, 0.5, "yellow", "via_B"),
+            _make_shape("circle", 2, 7.5, 0.5, 0.5, "yellow", "via_C"),
+            _make_shape("circle", 7.5, 7.5, 0.5, 0.5, "yellow", "via_D"),
+        ]
+    },
 }
 
 

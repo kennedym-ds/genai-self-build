@@ -75,7 +75,9 @@ const TransformersPage = {
             `;
         }
 
-        content += `</div>`;
+        content += `
+            ${chapterNav("transformers")}
+        </div>`;
         return content;
     },
 
@@ -135,7 +137,7 @@ const TransformersPage = {
         if (!scene) return;
 
         // Render the input scene
-        document.getElementById("tf-scene-visual").innerHTML = TokenizationPage.renderSceneHtml(scene, 30, 250);
+        document.getElementById("tf-scene-visual").innerHTML = TextUtils.renderSceneHtml(scene, 30, 250);
 
         // Run through the pipeline
         const tok = AppState.engines.tokenizer;

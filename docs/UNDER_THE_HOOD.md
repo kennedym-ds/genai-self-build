@@ -1,5 +1,7 @@
 # 🔍 Under the Hood: How GenAI Self-Build Really Works
 
+> **Scope:** This guide covers the Python workshop implementations (`workshops/01-06/`). For the interactive HTML webpage (`index.html`), see the JavaScript source in `js/ml/` for equivalent implementations.
+
 ## Purpose of This Guide
 
 This document reveals the **internals** of each workshop's implementation—what's happening behind the scenes, what's been simplified for education, and how it compares to production systems.

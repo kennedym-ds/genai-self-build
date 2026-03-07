@@ -14,7 +14,41 @@
 **Prerequisites:**
 - Basic Python proficiency (functions, loops, lists, dictionaries)
 - Familiarity with command line
+- Modern web browser (for zero-install interactive delivery)
 - No ML/AI experience required
+
+---
+
+## Delivery Mechanisms
+
+Use the mode that fits your audience and time constraints:
+
+| Mode | Primary Assets | Best For |
+|------|----------------|----------|
+| **Interactive HTML (Recommended)** | `index.html`, `js/`, `css/` | Conferences, workshops, mixed-skill groups, offline demos |
+| **Python Streamlit Labs** | `workshops/*/app.py`, root `app.py` | Deep-dive coding sessions and implementation walkthroughs |
+| **Keynote (20-min TED style)** | `keynote/app.py`, `keynote/SCRIPT.md`, `keynote/html_app/` | Executive briefings, plenary talks, fast narrative overviews |
+
+### Why Lead with HTML
+
+- Zero install, instant start
+- Built-in chapter flow and story transitions
+- Text/Visual dual path for different learning styles
+- Runs locally/offline in a browser
+
+---
+
+## Tech Stack
+
+### Core Delivery Stack
+- **HTML/CSS/JavaScript SPA** (`index.html`, `js/`, `css/`) for primary interactive delivery
+
+### Core Build Stack
+- **Python 3.9+** + **NumPy** for educational implementations
+- **Streamlit** for deep-dive interactive coding demos
+
+### Optional Extensions
+- Matplotlib, scikit-learn, ChromaDB, sentence-transformers (for advanced comparisons)
 
 ---
 
@@ -519,13 +553,19 @@ class SimpleRAG:
 ## Pre-Workshop Setup
 
 ### Required Installations
+
+#### Option A: Interactive HTML delivery (recommended)
+No installation required. Open `index.html` in a modern browser.
+
+#### Option B: Python/Streamlit deep dive
+
 ```bash
 # Python environment
 python -m venv genai-workshop
 source genai-workshop/bin/activate  # or genai-workshop\Scripts\activate on Windows
 
 # Core dependencies
-pip install numpy matplotlib jupyter
+pip install -r requirements.txt
 
 # Optional (for comparisons/extensions)
 pip install scikit-learn chromadb sentence-transformers
@@ -537,10 +577,12 @@ pip install scikit-learn chromadb sentence-transformers
 - No GPU required (everything runs on CPU)
 
 ### Pre-Workshop Checklist
+- [ ] Validate `index.html` chapter navigation and story transitions
+- [ ] Test HTML app offline (no network)
 - [ ] Python 3.10+ installed
 - [ ] Virtual environment created
-- [ ] NumPy and Matplotlib installed
-- [ ] Jupyter notebooks working
+- [ ] `pip install -r requirements.txt` succeeds
+- [ ] Streamlit demos launch for deep-dive sessions
 - [ ] Starter code downloaded
 
 ---
@@ -650,8 +692,19 @@ Create a one-page reference for each concept:
 
 ```
 genai-self-build/
-├── app.py                        # Unified demo (all workshops)
-├── requirements.txt              # Dependencies
+├── index.html                    # 🌐 Primary interactive webpage (zero install)
+├── css/
+│   └── index.css                 # HTML app styles
+├── js/
+│   ├── app.js                    # SPA router + chapter flow
+│   ├── ml/                       # JS concept engines
+│   └── ui/                       # Sidebar + page renderers
+├── app.py                        # Unified Streamlit demo (all workshops)
+├── keynote/                      # 🎤 TED-style keynote package
+│   ├── app.py
+│   ├── SCRIPT.md
+│   └── html_app/
+├── requirements.txt              # Python dependencies
 ├── README.md                     # Project documentation
 ├── docs/
 │   └── workshop-plan.md          # This document
@@ -669,8 +722,10 @@ genai-self-build/
 │   ├── 04-attention/             # ✅ Complete
 │   ├── 05-transformers/          # ✅ Complete
 │   └── 06-rag/                   # ✅ Complete
+├── shape_data.js                 # Visual-path dataset
+├── shapes_core.js                # Visual-path engines
 └── data/
-    └── (sample data files)
+    └── corpus/                   # Sample text corpus
 ```
 
 ---
@@ -678,15 +733,16 @@ genai-self-build/
 ## Status
 
 All 6 workshops are **complete** with:
+- ✅ Interactive HTML webpage (`index.html`) with dual Text/Visual learning paths
 - ✅ Core Python implementation
-- ✅ Interactive Streamlit demo
+- ✅ Interactive Streamlit demos (per workshop + unified root app)
 - ✅ Comprehensive test suite
 - ✅ Marp presentation slides
 - ✅ Cheatsheet and Q&A documents
-- ✅ Unified demo combining all workshops
+- ✅ Keynote delivery package (`keynote/app.py` + `keynote/SCRIPT.md` + `keynote/html_app/`)
 
 ---
 
 *Author: Michael Kennedy (michael.kennedy@analog.com)*
-*Last Updated: December 2025*
+*Last Updated: March 2026*
 *Version: 1.0*

@@ -79,6 +79,18 @@ The 6 workshops follow a classic **hero's journey** structure:
 | 5. Transformers | **The Brain** — She assembles all pieces into a working mind | Pride + Awe | Nearly there |
 | 6. RAG | **The Connection** — She can finally answer questions about Earth | Joy + Accomplishment | Mission complete! |
 
+## 🌐 Story in the Interactive App
+
+The `index.html` webpage implements Zara's journey as a navigable chapter-by-chapter experience:
+
+- **Home page**: The Hook + Meet Zara + Chapter Map with emotional arc
+- **Each chapter page**: Opens with Zara's quote for that chapter, interactive demo, then a story transition teasing the next chapter
+- **Prev/Next navigation**: Buttons at the bottom of each page carry the audience forward
+- **Finale (Pipeline page)**: All 6 inventions working together + Feynman quote + "Mission Complete"
+- **Two lenses**: Users can follow Zara through Words (text) or Shapes (visual) — both paths tell the same story
+
+The chapter transitions are pre-written cliffhangers that maintain narrative tension (defined in `js/app.js` as `CHAPTER_TRANSITIONS`).
+
 ---
 
 ## 📖 Chapter-by-Chapter Narrative

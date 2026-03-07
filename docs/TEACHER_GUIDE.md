@@ -11,13 +11,15 @@ A comprehensive guide for facilitators leading the GenAI Self-Build Workshop Ser
 ## 📋 Table of Contents
 
 1. [Series Overview](#series-overview)
-2. [Preparation Checklist](#preparation-checklist)
-3. [Workshop-by-Workshop Guide](#workshop-by-workshop-guide)
-4. [Facilitation Tips](#facilitation-tips)
-5. [Handling Different Skill Levels](#handling-different-skill-levels)
-6. [Common Questions & Answers](#common-questions--answers)
-7. [Technical Setup](#technical-setup)
-8. [Assessment & Feedback](#assessment--feedback)
+2. [Delivery Modes](#delivery-modes)
+3. [Preparation Checklist](#preparation-checklist)
+4. [Workshop-by-Workshop Guide](#workshop-by-workshop-guide)
+5. [Keynote Demo (20-Minute TED-Style)](#keynote-demo-20-minute-ted-style)
+6. [Facilitation Tips](#facilitation-tips)
+7. [Handling Different Skill Levels](#handling-different-skill-levels)
+8. [Common Questions & Answers](#common-questions--answers)
+9. [Technical Setup](#technical-setup)
+10. [Assessment & Feedback](#assessment--feedback)
 
 ---
 
@@ -60,23 +62,56 @@ A comprehensive guide for facilitators leading the GenAI Self-Build Workshop Ser
 
 ---
 
+## 🧭 Delivery Modes
+
+### 🌐 Recommended (Default): Interactive HTML Webpage
+
+For conferences, lunch-and-learns, and mixed-skill workshops, lead with:
+
+- **`index.html`** as the primary demo surface (zero install)
+- **Chapter navigation** (Home → Chapters 1-6 → Finale)
+- **Built-in story transitions** between chapters to keep narrative flow smooth
+- **Text + Visual dual learning paths** so you can adapt live to the room
+- **Offline-friendly delivery** (open locally in browser; no server required)
+
+This mode is the fastest way to get everyone learning in minutes.
+
+### 🐍 Alternative: Python/Streamlit Deep Dive
+
+Use the Python apps (`workshops/*/app.py` and root `app.py`) when the goal is:
+
+- hands-on coding
+- implementation walkthroughs
+- debugging and test-driven learning
+
+Think of Streamlit as the **lab mode** and `index.html` as the **stage mode**.
+
+---
+
 ## ✅ Preparation Checklist
 
 ### 1 Week Before Series Starts
 
-- [ ] Test all demos on presentation machine
+- [ ] Open `index.html` on presentation machine and test all chapters
+- [ ] Verify chapter navigation (sidebar + Previous/Next chapter buttons)
+- [ ] Verify story transition text appears between chapters
+- [ ] Test offline mode (disable WiFi, reload `index.html`)
+- [ ] Test Streamlit demos only if running a deep-dive coding session
 - [ ] Review all slide decks in `workshops/*/slides/`
-- [ ] Ensure Python 3.9+ installed
-- [ ] Verify `pip install -r requirements.txt` works
-- [ ] Test unified demo: `streamlit run app.py`
+- [ ] Ensure Python 3.9+ installed (deep-dive sessions)
+- [ ] Verify `pip install -r requirements.txt` works (deep-dive sessions)
+- [ ] Test unified Streamlit demo: `streamlit run app.py` (deep-dive sessions)
+- [ ] Review Keynote assets: `keynote/SCRIPT.md` and `keynote/app.py`
 - [ ] Prepare backup cloud environment (Google Colab)
 - [ ] Set up communication channel (Slack/Discord)
 
 ### Before Each Workshop
 
 - [ ] Review the workshop's README.md and qna.md
-- [ ] Run the tests: `python test_*.py`
-- [ ] Launch the Streamlit demo and explore all tabs
+- [ ] Run through the corresponding chapter in `index.html`
+- [ ] Decide in advance: **Text path** or **Visual path** emphasis
+- [ ] If coding live: run tests (`python test_*.py`) in the workshop folder
+- [ ] If coding live: launch the workshop Streamlit demo and explore tabs
 - [ ] Prepare 2-3 discussion questions
 - [ ] Have "checkpoint" code ready if participants fall behind
 
@@ -317,6 +352,29 @@ Show text flowing through: **Tokenization → Embedding → Vector Search → At
 
 ---
 
+## 🎤 Keynote Demo (20-Minute TED-Style)
+
+Use the Keynote track when you need a polished, story-first presentation for leadership updates, conference stages, or short internal talks.
+
+### Key Assets
+
+- **Script:** `keynote/SCRIPT.md` (complete 20-minute TED-style narrative)
+- **Presenter app:** `keynote/app.py` (Streamlit keynote flow)
+- **Static fallback:** `keynote/html_app/index.html` (offline backup)
+
+### Suggested Usage Pattern
+
+1. Rehearse from `keynote/SCRIPT.md`
+2. Present with `keynote/app.py` when you want live interactivity
+3. Keep `keynote/html_app/` ready as a no-install fallback
+
+### Timing Guidance
+
+- **0:00-16:00**: Zara narrative arc (tokenization → RAG)
+- **16:00-20:00**: Domain connection + Q&A seed questions
+
+---
+
 ## 🎭 Storytelling Tips
 
 ### Using Zara's Journey
@@ -447,6 +505,22 @@ The **other 20%** will either:
 
 ## 💻 Technical Setup
 
+### 🌐 Conference/Workshop Delivery (Recommended)
+
+For the default HTML-first mode:
+
+- Modern browser (Edge, Chrome, Firefox, Safari)
+- Local copy of repo
+- No Python install required
+
+Launch with:
+
+```text
+Open index.html in your browser
+```
+
+### 🐍 Deep-Dive Coding Sessions (Alternative)
+
 ### Minimum Requirements
 
 - Python 3.9+
@@ -469,6 +543,11 @@ pip install numpy>=1.21.0 streamlit>=1.28.0
 ### Testing Before Sessions
 
 ```bash
+# HTML app smoke test (recommended baseline)
+# 1) Open index.html
+# 2) Click through all chapters + finale
+# 3) Toggle Text/Visual path
+
 # Run all tests
 cd workshops/01-tokenization && python test_tokenizer.py
 cd ../02-embeddings && python test_embeddings.py
@@ -522,20 +601,22 @@ streamlit run app.py
 ### Folder Structure
 
 ```
-workshops/
-├── 01-tokenization/
-│   ├── tokenizer.py       # Core implementation
-│   ├── app.py             # Streamlit demo
-│   ├── test_tokenizer.py  # Tests
-│   ├── README.md          # Overview
-│   ├── cheatsheet.md      # Quick reference
-│   ├── qna.md             # Q&A
-│   └── slides/slides.md   # Marp presentation
-├── 02-embeddings/
-├── 03-vector-databases/
-├── 04-attention/
-├── 05-transformers/
-└── 06-rag/
+genai-self-build/
+├── index.html                 # Primary interactive demo (recommended)
+├── css/index.css              # HTML app styles
+├── js/                        # HTML app logic (pages + ML helpers)
+├── app.py                     # Unified Streamlit demo
+├── keynote/                   # 20-minute keynote demo package
+│   ├── app.py
+│   ├── SCRIPT.md
+│   └── html_app/
+└── workshops/
+  ├── 01-tokenization/
+  ├── 02-embeddings/
+  ├── 03-vector-databases/
+  ├── 04-attention/
+  ├── 05-transformers/
+  └── 06-rag/
 ```
 
 ### Key Files for Teachers
@@ -547,7 +628,9 @@ workshops/
 | User guide | `docs/USER_GUIDE.md` |
 | Workshop plan | `docs/workshop-plan.md` |
 | Style guide | `.github/copilot-instructions.md` |
-| Unified demo | `app.py` |
+| Primary conference demo | `index.html` |
+| Unified Streamlit demo (deep dive) | `app.py` |
+| Keynote script | `keynote/SCRIPT.md` |
 
 ---
 
@@ -574,4 +657,4 @@ Thank you for facilitating this series. You're helping people understand one of 
 
 *Questions? Contact: michael.kennedy@analog.com*
 
-*Last Updated: December 2025*
+*Last Updated: March 2026*

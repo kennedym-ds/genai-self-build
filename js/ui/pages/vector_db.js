@@ -16,29 +16,10 @@ const VectorDBPage = {
     initDB() {
         if (!this.dbText && window.TextVectorDB) {
             this.dbText = new TextVectorDB(64);
-            // Quick deterministic hash again for stable vectors
-            const hashStr = (str) => {
-                let hash = 0;
-                for (let i = 0; i < str.length; i++) hash = ((hash << 5) - hash) + str.charCodeAt(i);
-                return Math.abs(hash);
-            };
 
             for (let i = 0; i < this.documents.length; i++) {
                 const doc = this.documents[i];
-                let seed = hashStr(doc);
-                const vector = [];
-                let sumSq = 0;
-                let x = Math.sin(seed) * 10000;
-                
-                for(let d=0; d<64; d++) {
-                    x = Math.sin(x) * 10000;
-                    const val = ((x - Math.floor(x)) * 2) - 1;
-                    vector.push(val);
-                    sumSq += val*val;
-                }
-                
-                const mag = Math.sqrt(sumSq);
-                this.dbText.add(`doc_${i}`, vector.map(v => v/mag));
+                this.dbText.add(`doc_${i}`, TextUtils.makeVector(doc, 64));
             }
         }
     },
@@ -90,6 +71,7 @@ const VectorDBPage = {
                 <div class="alert alert-info">
                     <p><strong>The Problem:</strong> Zara wants to find layout scenes that look like ones she's seen before, but checking them line-by-line is way too slow.</p>
                     <p><strong>The Solution:</strong> She stores the 16D vector representation of every scene in a Vector Database. When she sees a new scene, she queries the database for nearest neighbors purely by their coordinate distance!</p>
+                    <p style="margin-top:8px; color: var(--accent-3);"><strong>🔌 Layout analogy:</strong> You're already a human vector database — flipping through old tape-outs looking for something "kind of like" your current design. This does it in milliseconds. Try searching from <em>inverter_cell</em> to find similar circuit layouts!</p>
                 </div>
                 
                 <div class="card-grid" style="grid-template-columns: 1fr 2fr;">
@@ -110,7 +92,9 @@ const VectorDBPage = {
             `;
         }
         
-        content += `</div>`;
+        content += `
+            ${chapterNav("vectordb")}
+        </div>`;
         return content;
     },
 
@@ -134,24 +118,7 @@ const VectorDBPage = {
         
         const query = document.getElementById("vdb-query").value;
         const k = parseInt(document.getElementById("vdb-k").value, 10);
-        
-        // Hash string
-        let hash = 0;
-        for (let i = 0; i < query.length; i++) hash = ((hash << 5) - hash) + query.charCodeAt(i);
-        let seed = Math.abs(hash);
-        
-        // Generate query vector
-        const qVec = [];
-        let sumSq = 0;
-        let x = Math.sin(seed) * 10000;
-        for(let d=0; d<64; d++) {
-            x = Math.sin(x) * 10000;
-            const val = ((x - Math.floor(x)) * 2) - 1;
-            qVec.push(val);
-            sumSq += val*val;
-        }
-        const mag = Math.sqrt(sumSq);
-        const normalizedQVec = qVec.map(v => v/mag);
+        const normalizedQVec = TextUtils.makeVector(query, 64);
         
         // Search
         const results = this.dbText.search(normalizedQVec, k);
@@ -175,7 +142,7 @@ const VectorDBPage = {
         if (!scene || !AppState.engines.db || !AppState.engines.embedding) return;
 
         // Render input
-        document.getElementById("vdb-query-scene").innerHTML = TokenizationPage.renderSceneHtml(scene, 30, 200);
+        document.getElementById("vdb-query-scene").innerHTML = TextUtils.renderSceneHtml(scene, 30, 200);
 
         // Get embedding
         const qEmb = AppState.engines.embedding.get_embedding(scene);
@@ -196,7 +163,7 @@ const VectorDBPage = {
                 <div>
                     <strong>${rName}</strong><br>
                     <span style='color:var(--accent-1);font-size:12px;'>Sim: ${rScore.toFixed(2)}</span>
-                    ${TokenizationPage.renderSceneHtml(rScene, 15, 150)}
+                    ${TextUtils.renderSceneHtml(rScene, 15, 150)}
                 </div>
             `;
         });

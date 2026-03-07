@@ -17,7 +17,31 @@ workshops/
 └── 06-rag/              ✅ Complete
 ```
 
-**Unified Demo:** `app.py` in root directory combines all workshops.
+**Unified Streamlit Demo:** `app.py` in root directory combines all workshops (Python path).
+
+**Interactive Web App:** `index.html` in root — zero-install HTML SPA with dual Text/Visual learning paths and chapter-based navigation (Zara's journey).
+
+**Keynote Demo:** `keynote/` — 20-minute TED-style presentation with companion Streamlit app and HTML app.
+
+### Dual-Stack Architecture
+```
+Root (HTML SPA)             Root (Python Deep Dive)
+├── index.html              ├── app.py (Streamlit unified)
+├── css/index.css           └── workshops/01-06/
+├── js/                         ├── topic.py
+│   ├── app.js                  ├── app.py (Streamlit per-workshop)
+│   ├── ml/                     ├── test_topic.py
+│   │   ├── tokenizer.js        └── slides/slides.md
+│   │   ├── embeddings.js
+│   │   ├── vector_db.js    Keynote
+│   │   ├── attention.js    ├── keynote/app.py
+│   │   └── text_utils.js   ├── keynote/SCRIPT.md
+│   └── ui/                 └── keynote/html_app/
+│       ├── sidebar.js
+│       └── pages/*.js
+├── shape_data.js
+└── shapes_core.js
+```
 
 ---
 
@@ -158,6 +182,95 @@ tab1, tab2, tab3 = st.tabs(["🔬 Interactive Demo", "📊 How It Works", "🆚 
 .error { background-color: #dc2626; }        /* Red */
 .success { background-color: #16a34a; }      /* Green */
 .warning { background-color: #f59e0b; }      /* Amber */
+```
+
+## HTML SPA Pattern (index.html)
+
+### Architecture
+The HTML SPA uses a hash-based router with global state management:
+
+```javascript
+// AppState — global reactive state
+const AppState = {
+    learningPath: "Text",    // "Text" | "Visual"
+    activeRoute: "home",
+    engines: { tokenizer, embedding, db, attention }
+};
+
+// Router — hash-based navigation
+const Router = {
+    navigate(route, force = false) { ... }
+};
+
+// Each page exports: { render(), attachEvents() }
+const MyPage = {
+    render() { return '<div>...</div>'; },
+    attachEvents() { /* bind handlers after render */ }
+};
+```
+
+### Page Module Pattern
+Each page in `js/ui/pages/` follows:
+```javascript
+const TopicPage = {
+    render() {
+        // 1. Branch on AppState.learningPath ("Text" / "Visual")
+        // 2. Return HTML string with interactive controls
+        // 3. Include chapterNav(routeName) at bottom for story navigation
+        return `<div class="page">...</div>`;
+    },
+    attachEvents() {
+        // Bind click/input handlers AFTER render
+        // Use escapeHtml() for ALL user input displayed in DOM
+    }
+};
+```
+
+### Security Requirements
+- **Always** use `escapeHtml()` (defined in `js/app.js`) for user-provided text before innerHTML
+- **Never** use `eval()` or inject raw user input into HTML
+- Shape engine outputs do NOT need escaping (internal data only)
+
+### Shared Utilities
+`js/ml/text_utils.js` provides `TextUtils` with shared functions:
+- `TextUtils.hashStr(str)` — deterministic string hash
+- `TextUtils.makeVector(text, dim)` — text to vector (demo-quality)
+- `TextUtils.cosSim(a, b)` — cosine similarity
+- `TextUtils.renderSceneHtml(scene, scale, height)` — SVG scene renderer
+
+### Shape Engine APIs (Visual Path)
+```javascript
+// Shape engines in shapes_core.js + shape_data.js
+const tokenizer = new ShapeTokenizer('part');
+tokenizer.train(scenes);
+tokenizer.encode(scene);  // → [token_ids]
+tokenizer.decode(ids);     // → [shape_parts]
+
+const embedding = new ShapeEmbedding('spatial', 16);
+embedding.train(scenes);
+embedding.get_embedding(sceneName);  // → Float64Array
+
+const db = new ShapeVectorDB(16);
+db.add_batch(names, embeddings);
+db.search(queryVector, k);  // → [{name, score}]
+
+const attention = new ShapeAttention();
+attention.compute_attention(scene);  // → [weights, labels]
+```
+
+### Chapter Navigation System
+The app uses a narrative chapter system defined in `js/app.js`:
+- `CHAPTERS` array — maps routes to story chapter titles
+- `CHAPTER_TRANSITIONS` — cliffhanger strings between chapters
+- `chapterNav(currentRoute)` — generates prev/next navigation + story transition HTML
+
+### CSS Theme
+Dark indigo-violet theme using CSS custom properties in `css/index.css`:
+```css
+--bg-primary: #0f0a1a;
+--text-primary: #e0d6f0;
+--accent-primary: #a78bfa;    /* Violet */
+--accent-secondary: #818cf8;   /* Indigo */
 ```
 
 ---
@@ -314,6 +427,10 @@ decode(ids) -> text      # Numbers to text
 
 ## Dependencies
 
+### HTML SPA
+Zero dependencies — vanilla HTML/CSS/JS. Just open `index.html`.
+
+### Python Workshops
 Keep minimal and standard:
 ```
 numpy>=1.21.0
@@ -324,12 +441,19 @@ Add workshop-specific only when needed:
 - Workshop 3+: `faiss-cpu` or `chromadb`
 - Workshop 5+: `torch` (if needed)
 
+### Keynote
+```
+streamlit>=1.28.0
+python-pptx>=0.6.21
+```
+
 ---
 
 ## Quality Checklist
 
 Before completing a workshop, verify:
 
+### Python Workshop
 - [ ] Core analogy runs through ALL materials
 - [ ] Code has comprehensive comments
 - [ ] Streamlit app has visual data flow
@@ -340,6 +464,14 @@ Before completing a workshop, verify:
 - [ ] Cheatsheet fits on 1-2 pages
 - [ ] Q&A anticipates "but how does ChatGPT..." questions
 - [ ] Footer/headers show workshop number (X of 6)
+
+### HTML SPA Page
+- [ ] Supports BOTH Text and Visual learning paths
+- [ ] Uses `escapeHtml()` for all user input in innerHTML
+- [ ] Uses `TextUtils` for shared functions (no copy-paste)
+- [ ] Includes `chapterNav()` at bottom for story flow
+- [ ] Visual path uses AppState.engines correctly
+- [ ] Zara narrative is consistent with STORY_GUIDE.md
 
 ---
 
